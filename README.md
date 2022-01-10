@@ -1,5 +1,5 @@
 # timekit
-Additional helpful functions for Golang [`time.Time`](https://pkg.go.dev/time) package to make your life easier. All functions only use `UTC`.
+Additional helpful functions for Golang [`time.Time`](https://pkg.go.dev/time) package to make your life easier.
 
 ## Installation
 
