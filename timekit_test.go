@@ -190,7 +190,7 @@ func TestFirstDayOfThisISOWeek(t *testing.T) {
 	}
 }
 
-func TestLastDayOfISOWeek(t *testing.T) {
+func TestLastDayOfThisISOWeek(t *testing.T) {
 	// Stub out the `time.Now()` function with our custom value so we can
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
@@ -198,7 +198,7 @@ func TestLastDayOfISOWeek(t *testing.T) {
 		return time.Date(2022, 1, 7, 1, 0, 0, 0, loc) // Friday Jan 7th
 	}
 
-	actual := LastDayOfISOWeek(timeFn)
+	actual := LastDayOfThisISOWeek(timeFn)
 	expected := time.Date(2022, 1, 9, 1, 0, 0, 0, time.UTC) // Sunday Jan 9th
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
