@@ -45,3 +45,30 @@ func Noon(now func() time.Time) time.Time {
 	dt := now()
 	return time.Date(dt.Year(), dt.Month(), dt.Day(), 12, 0, 0, 0, dt.Location())
 }
+
+// FirstDayOfISOWeek will return monday's date of this week. Please note monday
+// is considered the first day of the week according to ISO 8601 and not sunday
+// (which is what is used in Canada and USA).
+func FirstDayOfISOWeek(now func() time.Time) time.Time {
+	dt := now()
+
+	// iterate back to Monday
+	for dt.Weekday() != time.Monday {
+		dt = dt.AddDate(0, 0, -1)
+	}
+
+	return dt
+}
+
+// LastDayOfISOWeek will return sunday's date of this week. Please note sunday
+// is considered the last day of the week according to ISO 8601.
+func LastDayOfISOWeek(now func() time.Time) time.Time {
+	dt := now()
+
+	// iterate forward to Sunday
+	for dt.Weekday() != time.Sunday {
+		dt = dt.AddDate(0, 0, 1)
+	}
+
+	return dt
+}
