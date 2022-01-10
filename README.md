@@ -22,6 +22,10 @@ startOfYearDate := timekit.FirstDayOfThisYear(time.Now())
 fmt.Println(startOfYearDate)
 ```
 
+## Documentation
+
+All [documentation](https://pkg.go.dev/github.com/bartmika/timekit) can be found here.
+
 ## License
 Made with ❤️ by [Bartlomiej Mika](https://bartlomiejmika.com).   
 The project is licensed under the [Unlicense](LICENSE).
