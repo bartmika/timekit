@@ -89,8 +89,8 @@ func LastDayOfISOWeek(now func() time.Time) time.Time {
 	return dt
 }
 
-// MondayOfNextWeek return date of the upcoming monday.
-func MondayOfNextWeek(now func() time.Time) time.Time {
+// FirstDayOfNextISOWeek return date of the upcoming monday.
+func FirstDayOfNextISOWeek(now func() time.Time) time.Time {
 	dt := now()
 
 	// iterate forward to next Monday
