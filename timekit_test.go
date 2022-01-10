@@ -40,6 +40,21 @@ func TestFirstDayOfThisYear(t *testing.T) {
 	}
 }
 
+func TestFirstDayOfNextYear(t *testing.T) {
+	// Stub out the `time.Now()` function with our custom value so we can
+	// simulate being in this current data.
+	loc := time.UTC // closure can be used if necessary
+	timeFn := func() time.Time {
+		return time.Date(2022, 7, 1, 0, 0, 0, 0, loc) // July 1st 2022
+	}
+
+	actual := FirstDayOfNextYear(timeFn)
+	expected := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2023
+	if actual != expected {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+}
+
 func TestFirstDayOfLastMonth(t *testing.T) {
 	// Stub out the `time.Now()` function with our custom value so we can
 	// simulate being in this current data.
@@ -65,6 +80,36 @@ func TestFirstDayOfThisMonth(t *testing.T) {
 
 	actual := FirstDayOfThisMonth(timeFn)
 	expected := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2000
+	if actual != expected {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+}
+
+func TestFirstDayOfNextMonth(t *testing.T) {
+	// Stub out the `time.Now()` function with our custom value so we can
+	// simulate being in this current data.
+	loc := time.UTC // closure can be used if necessary
+	timeFn := func() time.Time {
+		return time.Date(2000, 1, 20, 0, 0, 0, 0, loc) // Jan 20th 2000
+	}
+
+	actual := FirstDayOfNextMonth(timeFn)
+	expected := time.Date(2000, 2, 1, 0, 0, 0, 0, time.UTC) // Feb 1st 2000
+	if actual != expected {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+}
+
+func TestMidnightYesterday(t *testing.T) {
+	// Stub out the `time.Now()` function with our custom value so we can
+	// simulate being in this current data.
+	loc := time.UTC // closure can be used if necessary
+	timeFn := func() time.Time {
+		return time.Date(2000, 1, 20, 0, 0, 0, 0, loc) // Jan 20th 2000 12AM
+	}
+
+	actual := MidnightYesterday(timeFn)
+	expected := time.Date(2000, 1, 19, 0, 0, 0, 0, time.UTC) // Jan 19th 2000 12AM
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}

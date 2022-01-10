@@ -5,15 +5,19 @@ import "time"
 // FirstDayOfLastYear returns first date (with 0:00 hour) from last year.
 func FirstDayOfLastYear(now func() time.Time) time.Time {
 	dt := now()
-	lastYear := dt.Year() - 1
-	return time.Date(lastYear, 1, 1, 0, 0, 0, 0, dt.Location())
+	return time.Date(dt.Year()-1, 1, 1, 0, 0, 0, 0, dt.Location())
 }
 
 // FirstDayOfThisYear returns the date (with 0:00 hour) from the first date of this year.
 func FirstDayOfThisYear(now func() time.Time) time.Time {
 	dt := now()
-	lastYear := dt.Year()
-	return time.Date(lastYear, 1, 1, 0, 0, 0, 0, dt.Location())
+	return time.Date(dt.Year(), 1, 1, 0, 0, 0, 0, dt.Location())
+}
+
+// FirstDayOfNextYear returns date (12AM) of the first date of next year.
+func FirstDayOfNextYear(now func() time.Time) time.Time {
+	dt := now()
+	return time.Date(dt.Year()+1, 1, 1, 0, 0, 0, 0, dt.Location())
 }
 
 // FirstDayOfLastMonth returns the date (with 0:00 hour) of the first day from last month.
@@ -28,7 +32,19 @@ func FirstDayOfThisMonth(now func() time.Time) time.Time {
 	return time.Date(dt.Year(), dt.Month(), 1, 0, 0, 0, 0, dt.Location())
 }
 
-// Midnight will return today's date at 12 o’clock (or 0:00) during the night.
+// FirstDayOfNextMonth returns next months first day (in 12 AM hours).
+func FirstDayOfNextMonth(now func() time.Time) time.Time {
+	dt := now()
+	return time.Date(dt.Year(), dt.Month()+1, 1, 0, 0, 0, 0, dt.Location())
+}
+
+// MidnightYesterday return 12 AM date of yesterday.
+func MidnightYesterday(now func() time.Time) time.Time {
+	dt := now()
+	return time.Date(dt.Year(), dt.Month(), dt.Day()-1, 0, 0, 0, 0, dt.Location())
+}
+
+// Midnight return today's date at 12 o’clock (or 0:00) during the night.
 func Midnight(now func() time.Time) time.Time {
 	dt := now()
 	return time.Date(dt.Year(), dt.Month(), dt.Day(), 0, 0, 0, 0, dt.Location())
