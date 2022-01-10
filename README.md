@@ -1,5 +1,5 @@
 # timekit
-Additional helpful functions for Golang [`time.Time`](https://pkg.go.dev/time) package to make your life easier
+Additional helpful functions for Golang [`time.Time`](https://pkg.go.dev/time) package to make your life easier. All functions only use `UTC`.
 
 ## Installation
 
@@ -18,7 +18,7 @@ import (
     "github.com/bartmika/timekit"
 )
 
-startOfYearDate := timekit.FirstDayFromThisYear(time.Now())
+startOfYearDate := timekit.FirstDateFromThisYear(time.Now())
 fmt.Println(startOfYearDate)
 ```
 
