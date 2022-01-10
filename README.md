@@ -18,7 +18,7 @@ import (
     "github.com/bartmika/timekit"
 )
 
-startOfYearDate := timekit.FirstDateFromThisYear(time.Now())
+startOfYearDate := timekit.FirstDayOfThisYear(time.Now())
 fmt.Println(startOfYearDate)
 ```
 

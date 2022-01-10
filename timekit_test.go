@@ -10,7 +10,7 @@ import (
 // out the `time.Now()` function in Golang.
 // https://labs.yulrizka.com/en/stubbing-time-dot-now-in-golang/
 
-func TestFirstDateFromLastYear(t *testing.T) {
+func TestFirstDayOfLastYear(t *testing.T) {
 	// Stub out the `time.Now()` function with our custom value so we can
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
@@ -18,14 +18,14 @@ func TestFirstDateFromLastYear(t *testing.T) {
 		return time.Date(2000, 1, 1, 0, 0, 0, 0, loc)
 	}
 
-	actual := FirstDateFromLastYear(timeFn)
+	actual := FirstDayOfLastYear(timeFn)
 	expected := time.Date(1999, 1, 1, 0, 0, 0, 0, time.UTC)
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
 }
 
-func TestFirstDateFromThisYear(t *testing.T) {
+func TestFirstDayOfThisYear(t *testing.T) {
 	// Stub out the `time.Now()` function with our custom value so we can
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
@@ -33,14 +33,14 @@ func TestFirstDateFromThisYear(t *testing.T) {
 		return time.Date(2000, 7, 1, 0, 0, 0, 0, loc) // July 1st
 	}
 
-	actual := FirstDateFromThisYear(timeFn)
+	actual := FirstDayOfThisYear(timeFn)
 	expected := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
 }
 
-func TestFirstDateFromLastMonth(t *testing.T) {
+func TestFirstDayOfLastMonth(t *testing.T) {
 	// Stub out the `time.Now()` function with our custom value so we can
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
@@ -48,14 +48,14 @@ func TestFirstDateFromLastMonth(t *testing.T) {
 		return time.Date(2000, 1, 1, 0, 0, 0, 0, loc)
 	}
 
-	actual := FirstDateFromLastMonth(timeFn)
+	actual := FirstDayOfLastMonth(timeFn)
 	expected := time.Date(1999, 12, 1, 0, 0, 0, 0, time.UTC)
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
 }
 
-func TestFirstDateFromThisMonth(t *testing.T) {
+func TestFirstDayOfThisMonth(t *testing.T) {
 	// Stub out the `time.Now()` function with our custom value so we can
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
@@ -63,7 +63,7 @@ func TestFirstDateFromThisMonth(t *testing.T) {
 		return time.Date(2000, 1, 20, 0, 0, 0, 0, loc) // Jan 20th
 	}
 
-	actual := FirstDateFromThisMonth(timeFn)
+	actual := FirstDayOfThisMonth(timeFn)
 	expected := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
