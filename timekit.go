@@ -60,13 +60,25 @@ func FirstDayOfISOWeek(now func() time.Time) time.Time {
 	return dt
 }
 
-// LastDayOfISOWeek will return sunday's date of this week. Please note sunday
+// LastDayOfISOWeek return sunday's date of this week. Please note sunday
 // is considered the last day of the week according to ISO 8601.
 func LastDayOfISOWeek(now func() time.Time) time.Time {
 	dt := now()
 
 	// iterate forward to Sunday
 	for dt.Weekday() != time.Sunday {
+		dt = dt.AddDate(0, 0, 1)
+	}
+
+	return dt
+}
+
+// MondayOfNextWeek return date of the upcoming monday.
+func MondayOfNextWeek(now func() time.Time) time.Time {
+	dt := now()
+
+	// iterate forward to next Monday
+	for dt.Weekday() != time.Monday {
 		dt = dt.AddDate(0, 0, 1)
 	}
 

@@ -15,11 +15,11 @@ func TestFirstDayOfLastYear(t *testing.T) {
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
 	timeFn := func() time.Time {
-		return time.Date(2000, 1, 1, 0, 0, 0, 0, loc)
+		return time.Date(2000, 1, 1, 0, 0, 0, 0, loc) // Jan 1st 2000
 	}
 
 	actual := FirstDayOfLastYear(timeFn)
-	expected := time.Date(1999, 1, 1, 0, 0, 0, 0, time.UTC)
+	expected := time.Date(1999, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 1999
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
@@ -30,11 +30,11 @@ func TestFirstDayOfThisYear(t *testing.T) {
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
 	timeFn := func() time.Time {
-		return time.Date(2000, 7, 1, 0, 0, 0, 0, loc) // July 1st
+		return time.Date(2000, 7, 1, 0, 0, 0, 0, loc) // July 1st 2000
 	}
 
 	actual := FirstDayOfThisYear(timeFn)
-	expected := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)
+	expected := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2000
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
@@ -45,11 +45,11 @@ func TestFirstDayOfLastMonth(t *testing.T) {
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
 	timeFn := func() time.Time {
-		return time.Date(2000, 1, 1, 0, 0, 0, 0, loc)
+		return time.Date(2000, 1, 1, 0, 0, 0, 0, loc) // Jan 1st 2000
 	}
 
 	actual := FirstDayOfLastMonth(timeFn)
-	expected := time.Date(1999, 12, 1, 0, 0, 0, 0, time.UTC)
+	expected := time.Date(1999, 12, 1, 0, 0, 0, 0, time.UTC) // Dec 1st 1999
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
@@ -60,11 +60,11 @@ func TestFirstDayOfThisMonth(t *testing.T) {
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
 	timeFn := func() time.Time {
-		return time.Date(2000, 1, 20, 0, 0, 0, 0, loc) // Jan 20th
+		return time.Date(2000, 1, 20, 0, 0, 0, 0, loc) // Jan 20th 2000
 	}
 
 	actual := FirstDayOfThisMonth(timeFn)
-	expected := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)
+	expected := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2000
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
@@ -75,11 +75,11 @@ func TestMidnight(t *testing.T) {
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
 	timeFn := func() time.Time {
-		return time.Date(2000, 1, 20, 5, 0, 0, 0, loc) // Jan 20th 5 AM
+		return time.Date(2000, 1, 20, 5, 0, 0, 0, loc) // Jan 20th 2000 5AM
 	}
 
 	actual := Midnight(timeFn)
-	expected := time.Date(2000, 1, 20, 0, 0, 0, 0, time.UTC)
+	expected := time.Date(2000, 1, 20, 0, 0, 0, 0, time.UTC) // Jan 20th 2000 12AM
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
@@ -90,11 +90,11 @@ func TestMidnightTomorrow(t *testing.T) {
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
 	timeFn := func() time.Time {
-		return time.Date(2000, 1, 20, 5, 0, 0, 0, loc) // Jan 20th 5 AM
+		return time.Date(2000, 1, 20, 5, 0, 0, 0, loc) // Jan 20th 2000 5AM
 	}
 
 	actual := MidnightTomorrow(timeFn)
-	expected := time.Date(2000, 1, 21, 0, 0, 0, 0, time.UTC)
+	expected := time.Date(2000, 1, 21, 0, 0, 0, 0, time.UTC) // Jan 21st 2000 12AM
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
@@ -105,11 +105,11 @@ func TestNoon(t *testing.T) {
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
 	timeFn := func() time.Time {
-		return time.Date(2000, 1, 20, 5, 0, 0, 0, loc) // Jan 20th 5 AM
+		return time.Date(2000, 1, 20, 5, 0, 0, 0, loc) // Jan 20th 2000 5AM
 	}
 
 	actual := Noon(timeFn)
-	expected := time.Date(2000, 1, 20, 12, 0, 0, 0, time.UTC)
+	expected := time.Date(2000, 1, 20, 12, 0, 0, 0, time.UTC) // Jan 200th 2000 12PM
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
@@ -120,7 +120,7 @@ func TestFirstDayOfISOWeek(t *testing.T) {
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
 	timeFn := func() time.Time {
-		return time.Date(2022, 1, 9, 1, 0, 0, 0, loc) // Sunday Jan 9th Midnight
+		return time.Date(2022, 1, 9, 1, 0, 0, 0, loc) // Sunday Jan 9th
 	}
 
 	actual := FirstDayOfISOWeek(timeFn)
@@ -140,6 +140,21 @@ func TestLastDayOfISOWeek(t *testing.T) {
 
 	actual := LastDayOfISOWeek(timeFn)
 	expected := time.Date(2022, 1, 9, 1, 0, 0, 0, time.UTC) // Sunday Jan 9th
+	if actual != expected {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+}
+
+func TestMondayOfNextWeek(t *testing.T) {
+	// Stub out the `time.Now()` function with our custom value so we can
+	// simulate being in this current data.
+	loc := time.UTC // closure can be used if necessary
+	timeFn := func() time.Time {
+		return time.Date(2022, 1, 7, 1, 0, 0, 0, loc) // Friday Jan 7th
+	}
+
+	actual := MondayOfNextWeek(timeFn)
+	expected := time.Date(2022, 1, 10, 1, 0, 0, 0, time.UTC) // Monday Jan 10th
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
