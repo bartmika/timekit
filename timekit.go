@@ -80,10 +80,10 @@ func FirstDayOfLastISOWeek(now func() time.Time) time.Time {
 	return dt
 }
 
-// FirstDayOfISOWeek return monday's date of this week. Please note monday
+// FirstDayOfThisISOWeek return monday's date of this week. Please note monday
 // is considered the first day of the week according to ISO 8601 and not sunday
 // (which is what is used in Canada and USA).
-func FirstDayOfISOWeek(now func() time.Time) time.Time {
+func FirstDayOfThisISOWeek(now func() time.Time) time.Time {
 	dt := now()
 
 	// iterate back to Monday
