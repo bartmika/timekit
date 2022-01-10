@@ -34,6 +34,12 @@ func Midnight(now func() time.Time) time.Time {
 	return time.Date(dt.Year(), dt.Month(), dt.Day(), 0, 0, 0, 0, dt.Location())
 }
 
+// Midnight will return tomorrows date at 12 o’clock (or 0:00) during the night.
+func MidnightTomorrow(now func() time.Time) time.Time {
+	dt := now()
+	return time.Date(dt.Year(), dt.Month(), dt.Day()+1, 0, 0, 0, 0, dt.Location())
+}
+
 // Noon will return today's date at 12 o'clock (or 12:00) during the day.
 func Noon(now func() time.Time) time.Time {
 	dt := now()

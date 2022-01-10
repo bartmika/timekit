@@ -85,6 +85,21 @@ func TestMidnight(t *testing.T) {
 	}
 }
 
+func TestMidnightTomorrow(t *testing.T) {
+	// Stub out the `time.Now()` function with our custom value so we can
+	// simulate being in this current data.
+	loc := time.UTC // closure can be used if necessary
+	timeFn := func() time.Time {
+		return time.Date(2000, 1, 20, 5, 0, 0, 0, loc) // Jan 20th 5 AM
+	}
+
+	actual := MidnightTomorrow(timeFn)
+	expected := time.Date(2000, 1, 21, 0, 0, 0, 0, time.UTC)
+	if actual != expected {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+}
+
 func TestNoon(t *testing.T) {
 	// Stub out the `time.Now()` function with our custom value so we can
 	// simulate being in this current data.
