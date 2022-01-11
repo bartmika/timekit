@@ -1,5 +1,5 @@
 # timekit
-Additional helpful functions for Golang [`time.Time`](https://pkg.go.dev/time) package to make your life easier.
+Convenience functions to make your life easier when using with Golang's [`time`](https://pkg.go.dev/time) package.
 
 ## Installation
 
@@ -18,7 +18,7 @@ import (
     "github.com/bartmika/timekit"
 )
 
-startOfYearDate := timekit.FirstDayOfThisYear(time.Now())
+startOfYearDate := timekit.FirstDayOfThisYear(time.Now)
 fmt.Println(startOfYearDate)
 ```
 
