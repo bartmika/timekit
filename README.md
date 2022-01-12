@@ -1,4 +1,7 @@
 # timekit
+[![GoDoc](https://godoc.org/github.com/gomarkdown/markdown?status.svg)](https://pkg.go.dev/github.com/bartmika/timekit)
+[![Go Report Card](https://goreportcard.com/badge/github.com/bartmika/timekit)](https://goreportcard.com/report/github.com/bartmika/timekit)
+
 Convenience functions to make your life easier when using with Golang's [`time`](https://pkg.go.dev/time) package.
 
 ## Installation
