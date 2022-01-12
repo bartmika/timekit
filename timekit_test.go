@@ -1,6 +1,7 @@
 package timekit
 
 import (
+	"reflect"
 	"testing"
 	"time"
 )
@@ -217,5 +218,21 @@ func TestFirstDayOfNextISOWeek(t *testing.T) {
 	expected := time.Date(2022, 1, 10, 1, 0, 0, 0, time.UTC) // Monday Jan 10th
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+}
+
+func TestRange(t *testing.T) {
+	loc := time.UTC                                 // closure can be used if necessary
+	start := time.Date(2022, 1, 7, 1, 0, 0, 0, loc) // Jan 7th 2022
+	end := time.Date(2022, 1, 10, 1, 0, 0, 0, loc)  // Jan 10th 2022
+	actual := Range(start, end, 0, 0, 1, 0, 0, 0)
+	expected := []time.Time{
+		time.Date(2022, 1, 7, 1, 0, 0, 0, loc),  // Jan 7th 2022
+		time.Date(2022, 1, 8, 1, 0, 0, 0, loc),  // Jan 8th 2022
+		time.Date(2022, 1, 9, 1, 0, 0, 0, loc),  // Jan 9th 2022
+		time.Date(2022, 1, 10, 1, 0, 0, 0, loc), // Jan 10th 2022
+	}
+	if reflect.DeepEqual(actual, expected) == false {
+		t.Errorf("Incorrect date ranges, got %s but was expecting %s", actual, expected)
 	}
 }

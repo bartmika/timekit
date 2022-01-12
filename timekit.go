@@ -1,6 +1,8 @@
 package timekit
 
-import "time"
+import (
+	"time"
+)
 
 // FirstDayOfLastYear returns first date (with 0:00 hour) from last year.
 func FirstDayOfLastYear(now func() time.Time) time.Time {
@@ -117,4 +119,15 @@ func FirstDayOfNextISOWeek(now func() time.Time) time.Time {
 	}
 
 	return dt
+}
+
+// Range function returns an array of datetime values from the starting date to the finish date according to the step pattern specified in the parameter.
+func Range(start time.Time, end time.Time, yearStep int, monthStep int, dayStep int, hourStep int, minuteStep int, secondStep int) []time.Time {
+	var results []time.Time
+
+	dur := time.Hour*time.Duration(hourStep) + time.Minute*time.Duration(minuteStep) + time.Second*time.Duration(secondStep)
+	for d := start; d.After(end) == false; d = d.AddDate(yearStep, monthStep, dayStep).Add(dur) {
+		results = append(results, d)
+	}
+	return results
 }
