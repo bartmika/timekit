@@ -82,9 +82,7 @@ func FirstDayOfLastISOWeek(now func() time.Time) time.Time {
 	return dt
 }
 
-// FirstDayOfThisISOWeek return monday's date of this week. Please note monday
-// is considered the first day of the week according to ISO 8601 and not sunday
-// (which is what is used in Canada and USA).
+// FirstDayOfThisISOWeek return monday's date of this week. Please note monday is considered the first day of the week according to ISO 8601 and not sunday (which is what is used in Canada and USA).
 func FirstDayOfThisISOWeek(now func() time.Time) time.Time {
 	dt := now()
 
@@ -96,8 +94,7 @@ func FirstDayOfThisISOWeek(now func() time.Time) time.Time {
 	return dt
 }
 
-// LastDayOfThisISOWeek return sunday's date of this week. Please note sunday
-// is considered the last day of the week according to ISO 8601.
+// LastDayOfThisISOWeek return sunday's date of this week. Please note sunday is considered the last day of the week according to ISO 8601.
 func LastDayOfThisISOWeek(now func() time.Time) time.Time {
 	dt := now()
 
@@ -130,4 +127,51 @@ func Range(start time.Time, end time.Time, yearStep int, monthStep int, dayStep 
 		results = append(results, d)
 	}
 	return results
+}
+
+// TimeStepper is a structure to hold keep track of the position we are in the datetime range which we are stepping through.
+type TimeStepper struct {
+	// Details hidden to keep library simple.
+
+	curr       time.Time
+	start      time.Time
+	end        time.Time
+	yearStep   int
+	monthStep  int
+	dayStep    int
+	hourStep   int
+	minuteStep int
+	secondStep int
+}
+
+// NewTimeStepper is a constructor of the `TimeStepper` struct.
+func NewTimeStepper(start time.Time, end time.Time, yearStep int, monthStep int, dayStep int, hourStep int, minuteStep int, secondStep int) *TimeStepper {
+	return &TimeStepper{
+		curr:       start,
+		start:      start,
+		end:        end,
+		yearStep:   yearStep,
+		monthStep:  monthStep,
+		dayStep:    dayStep,
+		hourStep:   hourStep,
+		minuteStep: minuteStep,
+		secondStep: secondStep,
+	}
+}
+
+// Step makes one time step over and returns true or false depending if the stepper has stepped over the end datetime.
+func (ts *TimeStepper) Step() bool {
+	dur := time.Hour*time.Duration(ts.hourStep) + time.Minute*time.Duration(ts.minuteStep) + time.Second*time.Duration(ts.secondStep)
+	ts.curr = ts.curr.AddDate(ts.yearStep, ts.monthStep, ts.dayStep).Add(dur)
+	return ts.curr.After(ts.end) == false
+}
+
+// Done checks to see if the stepper has stepped over the end datetime and will return true or false according.
+func (ts *TimeStepper) Done() bool {
+	return ts.curr.After(ts.end)
+}
+
+// Value will return the value that that the stepper is currently on.
+func (ts *TimeStepper) Value() time.Time {
+	return ts.curr
 }
