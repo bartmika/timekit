@@ -1,4 +1,6 @@
 # timekit
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbartmika%2Ftimekit.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbartmika%2Ftimekit?ref=badge_shield)
+
 Convenience functions to make your life easier when using with Golang's [`time`](https://pkg.go.dev/time) package.
 
 ## Installation
@@ -33,3 +35,6 @@ The project is licensed under the [Unlicense](LICENSE).
 Resource used:
 
 * [Stubbing Time.Now() in golang](https://labs.yulrizka.com/en/stubbing-time-dot-now-in-golang/) was a tremendous help in getting me to understand how to unit test with the [`time.Time`](https://pkg.go.dev/time) package.
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbartmika%2Ftimekit.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbartmika%2Ftimekit?ref=badge_large)
