@@ -133,6 +133,7 @@ func Range(start time.Time, end time.Time, yearStep int, monthStep int, dayStep 
 type TimeStepper struct {
 	// Details hidden to keep library simple.
 
+	tz         *time.Location
 	curr       time.Time
 	start      time.Time
 	end        time.Time
@@ -147,6 +148,7 @@ type TimeStepper struct {
 // NewTimeStepper is a constructor of the `TimeStepper` struct.
 func NewTimeStepper(start time.Time, end time.Time, yearStep int, monthStep int, dayStep int, hourStep int, minuteStep int, secondStep int) *TimeStepper {
 	return &TimeStepper{
+		tz:         start.Location(),
 		curr:       start,
 		start:      start,
 		end:        end,
@@ -161,8 +163,24 @@ func NewTimeStepper(start time.Time, end time.Time, yearStep int, monthStep int,
 
 // Step makes one time step over and returns true or false depending if the stepper has stepped over the end datetime.
 func (ts *TimeStepper) Step() bool {
+	// Developers Note:
+	// It was discovered that when you run the stepper in situtations involving
+	// daylight saving time, the stepper would lock up in a single date and do
+	// not proceed. This was found when you want to run the timestepper from
+	// Jan 1th 2021 to Jan 1th 2022 in 5 minute step intervals under the
+	// "America/Toronto" timezone. In essence daylight savings are the problem.
+	// To find a solution, stackoverflow had a great answer in the following:
+	// https://stackoverflow.com/questions/5495803/does-utc-observe-daylight-saving-time
+	// The `TL;DR;` is UTC does not have daylight savings, so therefore I am
+	// converting the current time into a UTC timezone value, performing our step
+	// and then converting back to the specific local timezone - therfore fixing
+	// our issue.
+	currUTC := ts.curr.UTC()
 	dur := time.Hour*time.Duration(ts.hourStep) + time.Minute*time.Duration(ts.minuteStep) + time.Second*time.Duration(ts.secondStep)
-	ts.curr = ts.curr.AddDate(ts.yearStep, ts.monthStep, ts.dayStep).Add(dur)
+	currUTC = currUTC.AddDate(ts.yearStep, ts.monthStep, ts.dayStep).Add(dur)
+	ts.curr = currUTC.In(ts.tz)
+
+	// Returns true or false depending if the stepper has stepped over the end datetime.
 	return ts.curr.After(ts.end) == false
 }
 

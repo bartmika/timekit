@@ -243,6 +243,7 @@ func TestNewTimeStepper(t *testing.T) {
 	end := time.Date(2022, 1, 10, 1, 0, 0, 0, loc)  // Jan 10th 2022
 	actual := NewTimeStepper(start, end, 0, 0, 1, 0, 0, 0)
 	expected := &TimeStepper{
+		tz:         loc,
 		curr:       start,
 		start:      start,
 		end:        end,
@@ -311,6 +312,33 @@ func TestValue(t *testing.T) {
 	ts.Step()
 	expected = time.Date(2022, 1, 9, 1, 0, 0, 0, loc) // Jan 9th 2022
 	actual = ts.Value()
+	if expected != actual {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+}
+
+//TODO: IMPL.
+func TestTimeStepperTorontoBug(t *testing.T) {
+	loc, _ := time.LoadLocation("America/Toronto")
+	start := time.Date(2021, 1, 1, 1, 0, 0, 0, loc) // Jan 1th 2021
+	end := time.Date(2022, 1, 1, 1, 0, 0, 0, loc)   // Jan 1th 2022
+	ts := NewTimeStepper(start, end, 0, 0, 0, 0, 5, 0)
+
+	var actual time.Time
+	running := true
+	for running {
+		// Get the value we are on in the timestepper.
+		actual = ts.Value()
+
+		// log.Println(actual) // For debugging purposes only.
+
+		// Run our timestepper to get our next value.
+		ts.Step()
+
+		running = ts.Done() == false
+	}
+
+	expected := time.Date(2022, 1, 1, 1, 0, 0, 0, loc) // Jan 1th 2022
 	if expected != actual {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}

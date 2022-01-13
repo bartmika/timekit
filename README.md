@@ -30,6 +30,10 @@ fmt.Println(startOfYearDate)
 
 All [documentation](https://pkg.go.dev/github.com/bartmika/timekit) can be found here.
 
+## Contributing
+
+Found a bug? Want a feature to improve your developer experience when dealing with the [`time`](https://pkg.go.dev/time) package? Please create an [issue](https://github.com/bartmika/timekit/issues).
+
 ## License
 Made with ❤️ by [Bartlomiej Mika](https://bartlomiejmika.com).   
 The project is licensed under the [Unlicense](LICENSE).
