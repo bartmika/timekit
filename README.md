@@ -36,7 +36,7 @@ Found a bug? Want a feature to improve your developer experience when dealing wi
 
 ## License
 Made with ❤️ by [Bartlomiej Mika](https://bartlomiejmika.com).   
-The project is licensed under the [Unlicense](LICENSE).
+The project is licensed under the [ISC License](LICENSE).
 
 Resource used:
 
