@@ -118,17 +118,6 @@ func FirstDayOfNextISOWeek(now func() time.Time) time.Time {
 	return dt
 }
 
-// Range function returns an array of datetime values from the starting date to the finish date according to the step pattern specified in the parameter.
-func Range(start time.Time, end time.Time, yearStep int, monthStep int, dayStep int, hourStep int, minuteStep int, secondStep int) []time.Time {
-	var results []time.Time
-
-	dur := time.Hour*time.Duration(hourStep) + time.Minute*time.Duration(minuteStep) + time.Second*time.Duration(secondStep)
-	for d := start; d.After(end) == false; d = d.AddDate(yearStep, monthStep, dayStep).Add(dur) {
-		results = append(results, d)
-	}
-	return results
-}
-
 // TimeStepper is a structure to hold keep track of the position we are in the datetime range which we are stepping through.
 type TimeStepper struct {
 	// Details hidden to keep library simple.
@@ -192,4 +181,27 @@ func (ts *TimeStepper) Done() bool {
 // Value will return the value that that the stepper is currently on.
 func (ts *TimeStepper) Value() time.Time {
 	return ts.curr
+}
+
+// Range function returns an array of datetime values from the starting date up to and including the finish date according to the step pattern specified in the parameter.
+func RangeFromTimeStepper(start time.Time, end time.Time, yearStep int, monthStep int, dayStep int, hourStep int, minuteStep int, secondStep int) []time.Time {
+	var results []time.Time
+
+	// Developers Note:
+	// We want to leverage our already unit tested code for the `range` functionality so we will use the `TimeStepper`
+	// to iterate through the datetime values and add them to an `results` array.
+	ts := NewTimeStepper(start, end, yearStep, monthStep, dayStep, hourStep, minuteStep, secondStep)
+	running := true
+	for running {
+		// Get the value we are on in the timestepper.
+		v := ts.Value()
+
+		results = append(results, v)
+
+		// Run our timestepper to get our next value.
+		ts.Step()
+
+		running = ts.Done() == false
+	}
+	return results
 }
