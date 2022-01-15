@@ -64,6 +64,7 @@ func appendIfMissing(slice []int, i int) []int {
 	return append(slice, i)
 }
 
+// WeeksRange returns an array of the week integer values between two dates. For example if one date is January 1st 2022 and the other is January 10th 2022, the output will be [52,1,2].
 func WeeksRange(start time.Time, end time.Time) []int {
 	var weeks []int
 
