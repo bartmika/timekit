@@ -55,6 +55,19 @@ func TestMonthsRange(t *testing.T) {
 	}
 }
 
+func TestWeeksRange(t *testing.T) {
+	loc := time.UTC // closure can be used if necessary
+
+	t1 := time.Date(2022, 1, 1, 1, 0, 0, 0, loc)  // Week 52
+	t2 := time.Date(2022, 1, 10, 1, 0, 0, 0, loc) // Week 2
+
+	actualDays := WeeksRange(t1, t2)
+	expectedDays := []int{52, 1, 2} // Weeks 52, 1, 2
+	if reflect.DeepEqual(actualDays, expectedDays) == false {
+		t.Errorf("Incorrect year ranges, got %v but was expecting %v", actualDays, expectedDays)
+	}
+}
+
 func TestDaysRange(t *testing.T) {
 	loc := time.UTC // closure can be used if necessary
 
