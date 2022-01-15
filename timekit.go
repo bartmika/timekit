@@ -123,6 +123,7 @@ func IsFirstDayOfYear(dt time.Time) bool {
 	return dt.Day() == 1 && dt.Month() == 1
 }
 
+// GetWeekNumberFromDate will return the week number for the inputted date.
 func GetWeekNumberFromDate(dt time.Time) int {
 	_, week := dt.ISOWeek()
 	return week
