@@ -156,3 +156,8 @@ func GetFirstDateFromWeekAndYear(wk int, year int, loc *time.Location) time.Time
 	}
 	return dt
 }
+
+// GetForstDateFromMonthAndYear returns the first day in the month/year specified.
+func GetForstDateFromMonthAndYear(month int, year int, loc *time.Location) time.Time {
+	return time.Date(year, time.Month(month), 1, 1, 0, 0, 0, loc)
+}
