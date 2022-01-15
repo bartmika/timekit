@@ -242,25 +242,56 @@ func TestGetWeekNumberFromDate(t *testing.T) {
 
 	// Week 52.
 
-	timeFn1 := time.Date(2022, 1, 1, 1, 0, 0, 0, loc) // Friday Jan 1st.
-	wkn := GetWeekNumberFromDate(timeFn1)
+	t1 := time.Date(2022, 1, 1, 1, 0, 0, 0, loc) // Friday Jan 1st.
+	wkn := GetWeekNumberFromDate(t1)
 	if wkn != 52 {
 		t.Errorf("Incorrect integer, got %v but was expecting %v", wkn, 52)
 	}
 
 	// Week 1.
 
-	timeFn2 := time.Date(2022, 1, 7, 1, 0, 0, 0, loc) // Friday Jan 7th
-	wkn = GetWeekNumberFromDate(timeFn2)
+	t2 := time.Date(2022, 1, 7, 1, 0, 0, 0, loc) // Friday Jan 7th
+	wkn = GetWeekNumberFromDate(t2)
 	if wkn != 1 {
 		t.Errorf("Incorrect integer, got %v but was expecting %v", wkn, 1)
 	}
 
 	// Week 52 (again).
 
-	timeFn3 := time.Date(2022, 12, 30, 1, 0, 0, 0, loc) // December 30th
-	wkn = GetWeekNumberFromDate(timeFn3)
+	t3 := time.Date(2022, 12, 30, 1, 0, 0, 0, loc) // December 30th
+	wkn = GetWeekNumberFromDate(t3)
 	if wkn != 52 {
 		t.Errorf("Incorrect integer, got %v but was expecting %v", wkn, 52)
 	}
+}
+
+func TestGetFirstDateFromWeekAndYear(t *testing.T) {
+	// Stub out the `time.Now()` function with our custom value so we can
+	// simulate being in this current data.
+	loc := time.UTC // closure can be used if necessary
+
+	// Week 1
+
+	expected := time.Date(2022, 1, 3, 1, 0, 0, 0, loc)
+	actual := GetFirstDateFromWeekAndYear(1, 2022, loc)
+	if expected != actual {
+		t.Errorf("Incorrect date, got %v but was expecting %v", actual, expected)
+	}
+
+	// Week 4
+
+	expected = time.Date(2022, 1, 24, 1, 0, 0, 0, loc)
+	actual = GetFirstDateFromWeekAndYear(4, 2022, loc)
+	if expected != actual {
+		t.Errorf("Incorrect date, got %v but was expecting %v", actual, expected)
+	}
+
+	// Week 52 (from last week)
+
+	expected = time.Date(2022, 1, 1, 1, 0, 0, 0, loc)
+	actual = GetFirstDateFromWeekAndYear(52, 2022, loc)
+	if expected != actual {
+		t.Errorf("Incorrect date, got %v but was expecting %v", actual, expected)
+	}
+
 }

@@ -128,3 +128,31 @@ func GetWeekNumberFromDate(dt time.Time) int {
 	_, week := dt.ISOWeek()
 	return week
 }
+
+// GetFirstDateFromWeekAndYear returns the first date for the particular week in the year inputted.
+func GetFirstDateFromWeekAndYear(wk int, year int, loc *time.Location) time.Time {
+	start := time.Date(year, 1, 1, 1, 0, 0, 0, loc)
+	end := time.Date(year+1, 1, 1, 1, 0, 0, 0, loc)
+
+	ts := NewTimeStepper(start, end, 0, 0, 1, 0, 0, 0) // Step by day.
+	dt := ts.Get()                                     // Get first day.
+
+	// Please note, there may be cases where week 52 happens in January,
+	// the the docs via https://pkg.go.dev/time#Time.ISOWeek.
+
+	// CASE 1
+	week := GetWeekNumberFromDate(dt)
+	if week == wk {
+		return dt
+	}
+
+	// CASE 2
+	for ts.Next() {
+		dt = ts.Get()
+		week := GetWeekNumberFromDate(dt)
+		if week == wk {
+			break
+		}
+	}
+	return dt
+}
