@@ -234,3 +234,33 @@ func TestIsFirstDayOfYear(t *testing.T) {
 		t.Errorf("Incorrect boolean, got %v but was expecting %v", isT1OK, true)
 	}
 }
+
+func TestGetWeekNumberFromDate(t *testing.T) {
+	// Stub out the `time.Now()` function with our custom value so we can
+	// simulate being in this current data.
+	loc := time.UTC // closure can be used if necessary
+
+	// Week 52.
+
+	timeFn1 := time.Date(2022, 1, 1, 1, 0, 0, 0, loc) // Friday Jan 1st.
+	wkn := GetWeekNumberFromDate(timeFn1)
+	if wkn != 52 {
+		t.Errorf("Incorrect integer, got %v but was expecting %v", wkn, 52)
+	}
+
+	// Week 1.
+
+	timeFn2 := time.Date(2022, 1, 7, 1, 0, 0, 0, loc) // Friday Jan 7th
+	wkn = GetWeekNumberFromDate(timeFn2)
+	if wkn != 1 {
+		t.Errorf("Incorrect integer, got %v but was expecting %v", wkn, 1)
+	}
+
+	// Week 52 (again).
+
+	timeFn3 := time.Date(2022, 12, 30, 1, 0, 0, 0, loc) // December 30th
+	wkn = GetWeekNumberFromDate(timeFn3)
+	if wkn != 52 {
+		t.Errorf("Incorrect integer, got %v but was expecting %v", wkn, 52)
+	}
+}

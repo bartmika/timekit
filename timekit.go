@@ -122,3 +122,8 @@ func FirstDayOfNextISOWeek(now func() time.Time) time.Time {
 func IsFirstDayOfYear(dt time.Time) bool {
 	return dt.Day() == 1 && dt.Month() == 1
 }
+
+func GetWeekNumberFromDate(dt time.Time) int {
+	_, week := dt.ISOWeek()
+	return week
+}
