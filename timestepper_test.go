@@ -28,14 +28,14 @@ func TestNewTimeStepper(t *testing.T) {
 	}
 }
 
-func TestStep(t *testing.T) {
+func TestNext(t *testing.T) {
 	loc := time.UTC                                 // closure can be used if necessary
 	start := time.Date(2022, 1, 7, 1, 0, 0, 0, loc) // Jan 7th 2022
 	end := time.Date(2022, 1, 10, 1, 0, 0, 0, loc)  // Jan 10th 2022
 	ts := NewTimeStepper(start, end, 0, 0, 1, 0, 0, 0)
 
 	// Perform our step operation and verify it works.
-	isFinished := ts.Step()
+	isFinished := ts.Next()
 
 	if isFinished == false {
 		t.Errorf("Incorrect value, got %v but was expecting %v", isFinished, true)
@@ -56,7 +56,7 @@ func TestDone(t *testing.T) {
 	}
 }
 
-func TestValue(t *testing.T) {
+func TestGet(t *testing.T) {
 	loc := time.UTC                                 // closure can be used if necessary
 	start := time.Date(2022, 1, 7, 1, 0, 0, 0, loc) // Jan 7th 2022
 	end := time.Date(2022, 1, 10, 1, 0, 0, 0, loc)  // Jan 10th 2022
@@ -64,23 +64,23 @@ func TestValue(t *testing.T) {
 
 	// Without step operation.
 	expected := time.Date(2022, 1, 7, 1, 0, 0, 0, loc) // Jan 7th 2022
-	actual := ts.Value()
+	actual := ts.Get()
 	if expected != actual {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
 
 	// Perform our step operation and let's verify the value is correct.
-	ts.Step()
+	ts.Next()
 	expected = time.Date(2022, 1, 8, 1, 0, 0, 0, loc) // Jan 8th 2022
-	actual = ts.Value()
+	actual = ts.Get()
 	if expected != actual {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
 
 	// Perform yet another step and verify value function.
-	ts.Step()
+	ts.Next()
 	expected = time.Date(2022, 1, 9, 1, 0, 0, 0, loc) // Jan 9th 2022
-	actual = ts.Value()
+	actual = ts.Get()
 	if expected != actual {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
@@ -97,12 +97,12 @@ func TestTimeStepperTorontoTimezoneBug(t *testing.T) {
 	running := true
 	for running {
 		// Get the value we are on in the timestepper.
-		actual = ts.Value()
+		actual = ts.Get()
 
 		// log.Println(actual) // For debugging purposes only.
 
 		// Run our timestepper to get our next value.
-		ts.Step()
+		ts.Next()
 
 		running = ts.Done() == false
 	}

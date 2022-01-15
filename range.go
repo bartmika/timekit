@@ -15,12 +15,12 @@ func YearsRange(start time.Time, end time.Time) []int {
 	running := true
 	for running {
 		// Get the value we are on in the timestepper.
-		v := ts.Value()
+		v := ts.Get()
 
 		years = append(years, v.Year())
 
 		// Run our timestepper to get our next value.
-		ts.Step()
+		ts.Next()
 
 		running = ts.Done() == false
 	}
@@ -38,7 +38,7 @@ func MonthRange(start time.Time, end time.Time) []int {
 	running := true
 	for running {
 		// Get the value we are on in the timestepper.
-		v := ts.Value()
+		v := ts.Get()
 
 		// Developers Note:
 		// (1) Yes the 'time.Month' type is a string as per https://pkg.go.dev/time#Month
@@ -47,7 +47,7 @@ func MonthRange(start time.Time, end time.Time) []int {
 		months = append(months, int(v.Month()))
 
 		// Run our timestepper to get our next value.
-		ts.Step()
+		ts.Next()
 
 		running = ts.Done() == false
 	}
@@ -62,17 +62,17 @@ func DaysRange(start time.Time, end time.Time) []int {
 	// We want to leverage our already unit tested code for the `range` functionality so we will use the `TimeStepper`
 	// to iterate through the datetime values and add them to an `results` array.
 	ts := NewTimeStepper(start, end, 0, 0, 1, 0, 0, 0)
-	running := true
-	for running {
+
+	// Get the value we are on in the timestepper.
+	v := ts.Get()
+	days = append(days, v.Day())
+
+	// Run our timestepper to get our next value.
+	for ts.Next() {
 		// Get the value we are on in the timestepper.
-		v := ts.Value()
+		v := ts.Get()
 
 		days = append(days, v.Day())
-
-		// Run our timestepper to get our next value.
-		ts.Step()
-
-		running = ts.Done() == false
 	}
 	return days
 }

@@ -34,8 +34,8 @@ func NewTimeStepper(start time.Time, end time.Time, yearStep int, monthStep int,
 	}
 }
 
-// Step makes one time step over and returns true or false depending if the stepper has stepped over the end datetime.
-func (ts *TimeStepper) Step() bool {
+// Next makes one time step over and returns true or false depending if the stepper has stepped over the end datetime.
+func (ts *TimeStepper) Next() bool {
 	// Developers Note:
 	// It was discovered that when you run the stepper in situtations involving
 	// daylight saving time, the stepper would lock up in a single date and do
@@ -62,8 +62,8 @@ func (ts *TimeStepper) Done() bool {
 	return ts.curr.After(ts.end)
 }
 
-// Value will return the value that that the stepper is currently on.
-func (ts *TimeStepper) Value() time.Time {
+// Get will return the value that that the stepper is currently on.
+func (ts *TimeStepper) Get() time.Time {
 	return ts.curr
 }
 
@@ -78,12 +78,12 @@ func RangeFromTimeStepper(start time.Time, end time.Time, yearStep int, monthSte
 	running := true
 	for running {
 		// Get the value we are on in the timestepper.
-		v := ts.Value()
+		v := ts.Get()
 
 		results = append(results, v)
 
 		// Run our timestepper to get our next value.
-		ts.Step()
+		ts.Next()
 
 		running = ts.Done() == false
 	}
