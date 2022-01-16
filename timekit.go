@@ -4,19 +4,19 @@ import (
 	"time"
 )
 
-// FirstDayOfLastYear returns first date (with 0:00 hour) from last year.
+// FirstDayOfLastYear returns first date (with 0:00 hour) from last calendar year.
 func FirstDayOfLastYear(now func() time.Time) time.Time {
 	dt := now()
 	return time.Date(dt.Year()-1, 1, 1, 0, 0, 0, 0, dt.Location())
 }
 
-// FirstDayOfThisYear returns the date (with 0:00 hour) from the first date of this year.
+// FirstDayOfThisYear returns the date (with 0:00 hour) from the first date of this calendar year.
 func FirstDayOfThisYear(now func() time.Time) time.Time {
 	dt := now()
 	return time.Date(dt.Year(), 1, 1, 0, 0, 0, 0, dt.Location())
 }
 
-// FirstDayOfNextYear returns date (12AM) of the first date of next year.
+// FirstDayOfNextYear returns date (12AM) of the first date of next calendar year.
 func FirstDayOfNextYear(now func() time.Time) time.Time {
 	dt := now()
 	return time.Date(dt.Year()+1, 1, 1, 0, 0, 0, 0, dt.Location())
