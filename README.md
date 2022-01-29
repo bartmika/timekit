@@ -1,7 +1,6 @@
 # timekit
 [![GoDoc](https://godoc.org/github.com/gomarkdown/markdown?status.svg)](https://pkg.go.dev/github.com/bartmika/timekit)
 [![Go Report Card](https://goreportcard.com/badge/github.com/bartmika/timekit)](https://goreportcard.com/report/github.com/bartmika/timekit)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbartmika%2Ftimekit.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbartmika%2Ftimekit?ref=badge_shield)
 
 Convenience functions to make your life easier when using with Golang's [`time`](https://pkg.go.dev/time) package.
 
