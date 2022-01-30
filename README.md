@@ -1,6 +1,6 @@
 # timekit
-[![GoDoc](https://godoc.org/github.com/gomarkdown/markdown?status.svg)](https://pkg.go.dev/github.com/bartmika/timekit)
-[![Go Report Card](https://goreportcard.com/badge/github.com/bartmika/timekit)](https://goreportcard.com/report/github.com/bartmika/timekit)
+[![GoDoc](https://godoc.org/github.com/gomarkdown/markdown?status.svg)](https://pkg.go.dev/github.com/bartmika/go-timekit)
+[![Go Report Card](https://goreportcard.com/badge/github.com/bartmika/go-timekit)](https://goreportcard.com/report/github.com/bartmika/go-timekit)
 
 Convenience functions to make your life easier when using with Golang's [`time`](https://pkg.go.dev/time) package.
 
@@ -9,7 +9,7 @@ Convenience functions to make your life easier when using with Golang's [`time`]
 In your Golang project, please run:
 
 ```
-go get github.com/bartmika/timekit
+go get github.com/bartmika/go-timekit
 ```
 
 ## Usage
@@ -18,7 +18,7 @@ go get github.com/bartmika/timekit
 import (
     "fmt"
 
-    "github.com/bartmika/timekit"
+    "github.com/bartmika/go-timekit"
 )
 
 startOfYearDate := timekit.FirstDayOfThisYear(time.Now)
@@ -31,7 +31,7 @@ All [documentation](https://pkg.go.dev/github.com/bartmika/timekit) can be found
 
 ## Contributing
 
-Found a bug? Want a feature to improve your developer experience when dealing with the [`time`](https://pkg.go.dev/time) package? Please create an [issue](https://github.com/bartmika/timekit/issues).
+Found a bug? Want a feature to improve your developer experience when dealing with the [`time`](https://pkg.go.dev/time) package? Please create an [issue](https://github.com/bartmika/go-timekit/issues).
 
 ## License
 Made with ❤️ by [Bartlomiej Mika](https://bartlomiejmika.com).   
