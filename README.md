@@ -27,7 +27,7 @@ fmt.Println(startOfYearDate)
 
 ## Documentation
 
-All [documentation](https://pkg.go.dev/github.com/bartmika/timekit) can be found here.
+All [documentation](https://pkg.go.dev/github.com/bartmika/go-timekit) can be found here.
 
 ## Contributing
 
