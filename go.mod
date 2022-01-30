@@ -1,3 +1,3 @@
-module github.com/bartmika/timekit
+module github.com/bartmika/go-timekit
 
 go 1.16
