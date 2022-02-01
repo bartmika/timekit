@@ -12,7 +12,14 @@ In your Golang project, please run:
 go get github.com/bartmika/timekit
 ```
 
-## Usage
+## Documentation
+
+All [documentation](https://pkg.go.dev/github.com/bartmika/timekit) can be found here.
+
+## Example Usage
+The following usage section will show a few interesting solutions that can be solved by this library.
+
+### How do I get the first day of this year in Golang?
 
 ```go
 import (
@@ -25,9 +32,84 @@ startOfYearDate := timekit.FirstDayOfThisYear(time.Now)
 fmt.Println(startOfYearDate)
 ```
 
-## Documentation
+If you have interest in finding out more functions for getting different date/times then checkout [timekit.go](timekit.go) file.
 
-All [documentation](https://pkg.go.dev/github.com/bartmika/timekit) can be found here.
+### How do parse JavaScript time into Golang time?
+
+In your browser console, try writing this:
+```javascript
+// EXAMPLE JAVASCRIPT CODE
+var dt = new Date()
+console.log(dt.getTime()) // 1643082322380
+console.log(dt) // Mon Jan 24 2022 22:45:22 GMT-0500 (Eastern Standard Time)
+```
+
+Then try this in your go source file:
+
+```go
+import (
+    "fmt"
+
+    "github.com/bartmika/timekit"
+)
+
+jsTime := int64(1643082322380)
+goTime := ParseJavaScriptTime(jsTime)
+fmt.Println(goTime)
+```
+
+### How get a range of date/times between two dates?
+
+```go
+import (
+    "fmt"
+
+    "github.com/bartmika/timekit"
+)
+
+start := time.Date(2022, 1, 7, 1, 0, 0, 0, loc) // Jan 7th 2022
+end := time.Date(2022, 1, 10, 1, 0, 0, 0, loc)  // Jan 10th 2022
+dts := RangeFromTimeStepper(start, end, 0, 0, 1, 0, 0, 0) // Step by day.
+fmt.Println(dts) // Output:
+                 // Jan 7th 2022
+                 // Jan 8th 2022
+                 // Jan 9th 2022
+                 // Jan 10th 2022
+```
+
+If you have interest in finding out more range functions then checkout [range.go](range.go) and [timestepper.go](timestepper.go) files.
+
+
+### How get iterate between two dates?
+
+```go
+import (
+    "fmt"
+
+    "github.com/bartmika/timekit"
+)
+
+loc := time.UTC                                 // closure can be used if necessary
+start := time.Date(2022, 1, 7, 1, 0, 0, 0, loc) // Jan 7th 2022
+end := time.Date(2022, 1, 10, 1, 0, 0, 0, loc)  // Jan 10th 2022
+ts := NewTimeStepper(start, end, 0, 0, 1, 0, 0, 0)
+
+var actual time.Time
+running := true
+for running {
+    // Get the value we are on in the timestepper.
+    actual = ts.Get()
+
+    log.Println(actual) // For debugging purposes only.
+
+    // Run our timestepper to get our next value.
+    ts.Next()
+
+    running = ts.Done() == false
+}
+```
+
+If you have interest in finding out iterating between two date/times then checkout [timestepper.go](timestepper.go) file.
 
 ## Contributing
 
