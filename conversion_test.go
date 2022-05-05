@@ -47,3 +47,22 @@ func TestParseJavaScriptTimeString(t *testing.T) {
 		t.Error("Incorrect error, should be not be nil but is nil!")
 	}
 }
+
+func TestToJavaScriptTime(t *testing.T) {
+	loc, _ := time.LoadLocation("America/Toronto")
+	goTime := time.Date(2022, 1, 24, 22, 45, 22, 380000000, loc) // 2022-01-24 22:45:22.38 -0500 EST
+
+	actual := ToJavaScriptTime(goTime)
+	expected := int64(1643082322)
+
+	if actual != expected {
+		t.Errorf("Incorrect JavaScript UNIX date, got %d but was expecting %d", actual, expected)
+	}
+
+	// DEVELOPERS NOTE:
+	// To confirm the above successfully works, open up your favourit web-browser and open up the inspector panel.
+	// In your console, copy and paste the following and verify the results:
+	//     var UNIX_Timestamp = 1643082322;
+	//     var date = new Date(UNIX_Timestamp * 1000);
+	//     console.log(date); // OUTPUT: Mon Jan 24 2022 22:45:22 GMT-0500 (Eastern Standard Time)
+}

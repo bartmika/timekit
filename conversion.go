@@ -23,3 +23,8 @@ func ParseJavaScriptTimeString(s string) (time.Time, error) {
 	// https://gist.github.com/alextanhongpin/3b6b2ee47665ac9c1c32c805b86380a6
 	return time.Unix(i/1000, (i%1000)*1000*1000), nil
 }
+
+// ToJavaScriptTime will return a Unix Epoch time value that your JavaScript code can read into JavaScript `Date` format. Example JavaScript code snippet of using the results of this function: `var date = new Date(UNIX_Timestamp * 1000);` as an example.
+func ToJavaScriptTime(t time.Time) int64 {
+	return t.Unix()
+}
