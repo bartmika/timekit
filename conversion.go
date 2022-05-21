@@ -28,3 +28,13 @@ func ParseJavaScriptTimeString(s string) (time.Time, error) {
 func ToJavaScriptTime(t time.Time) int64 {
 	return t.Unix()
 }
+
+// ToISO8601String will convert the Golang `Date` format into an ISO 8601 formatted date/time string.
+func ToISO8601String(t time.Time) string {
+	return t.Format(time.RFC3339) // "How to convert ISO 8601 time in golang?" via https://stackoverflow.com/a/42217963
+}
+
+// ParseBubbleTime will convert the date/time string (ex: "Nov 11, 2011 11:00 am") used "https://bubble.io" into Golang `time`. You will find need of this function if the Bubble.io app you built will be making an API call to your Golang backend server.
+func ParseBubbleTime(s string) (time.Time, error) {
+	return time.Parse("Jan _2, 2006 15:04 am", s)
+}
