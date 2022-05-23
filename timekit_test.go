@@ -295,7 +295,7 @@ func TestGetFirstDateFromWeekAndYear(t *testing.T) {
 	}
 }
 
-func TestGetForstDateFromMonthAndYear(t *testing.T) {
+func TestGetFirstDateFromMonthAndYear(t *testing.T) {
 	// Stub out the `time.Now()` function with our custom value so we can
 	// simulate being in this current data.
 	loc := time.UTC // closure can be used if necessary
@@ -303,7 +303,7 @@ func TestGetForstDateFromMonthAndYear(t *testing.T) {
 	// Week 1
 
 	expected := time.Date(2022, 1, 1, 1, 0, 0, 0, loc)
-	actual := GetForstDateFromMonthAndYear(1, 2022, loc)
+	actual := GetFirstDateFromMonthAndYear(1, 2022, loc)
 	if expected != actual {
 		t.Errorf("Incorrect date, got %v but was expecting %v", actual, expected)
 	}
