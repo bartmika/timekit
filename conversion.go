@@ -3,6 +3,8 @@ package timekit
 import (
 	"strconv"
 	"time"
+
+	"github.com/dannav/hhmmss"
 )
 
 // ParseJavaScriptTime will convert the number of milliseconds since the Unix Epoch parameter into Golang `time` format. As a result, the output of the JavaScript `getTime()` function can be used as the parameter in this function.
@@ -36,5 +38,12 @@ func ToISO8601String(t time.Time) string {
 
 // ParseBubbleTime will convert the date/time string (ex: "Nov 11, 2011 11:00 am") used "https://bubble.io" into Golang `time`. You will find need of this function if the Bubble.io app you built will be making an API call to your Golang backend server.
 func ParseBubbleTime(s string) (time.Time, error) {
+	// Note: https://www.geeksforgeeks.org/time-formatting-in-golang/
 	return time.Parse("Jan _2, 2006 15:04 am", s)
+}
+
+// ParseHourMinuteSecondDurationString will convert a HH:MM:SS string (example: "08:30:00") into duration.
+func ParseHourMinuteSecondDurationString(s string) (time.Duration, error) {
+	// Note: https://github.com/dannav/hhmmss
+	return hhmmss.Parse(s)
 }

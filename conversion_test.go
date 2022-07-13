@@ -106,3 +106,35 @@ func TestParseBubbleTime(t *testing.T) {
 		t.Error("Incorrect error, should be not be nil but is nil!")
 	}
 }
+
+func TestParseHourMinuteSecondDurationString(t *testing.T) {
+	expected := map[string]time.Duration{
+		"00:00:00": time.Duration(0),
+		"00:00:01": time.Duration(1000 * 1000 * 1000),                // 1000 million nanoseconds is 1000 milliseconds is 1 second.
+		"00:00:10": time.Duration(1000 * 1000 * 1000 * 10),           // 10 seconds.
+		"00:01:00": time.Duration(1000 * 1000 * 1000 * 60),           // 1 minute.
+		"00:10:00": time.Duration(1000 * 1000 * 1000 * 60 * 10),      // 10 minute.
+		"01:00:00": time.Duration(1000 * 1000 * 1000 * 60 * 60),      // 1 hour.
+		"10:00:00": time.Duration(1000 * 1000 * 1000 * 60 * 60 * 10), // 10 hours.
+	}
+
+	// Case 1 of 2 - Correct string.
+
+	for k, v := range expected {
+		actual, err := ParseHourMinuteSecondDurationString(k)
+		if err != nil {
+			t.Error(err)
+		}
+		if actual != v {
+			t.Errorf("Incorrect value, got %s but was expecting %s for %s", actual, v, k)
+		}
+	}
+
+	//
+	// // Case 2 of 2 - Incorrect string.
+
+	_, err := ParseHourMinuteSecondDurationString("-------")
+	if err == nil {
+		t.Error("Incorrect error, should be not be nil but is nil!")
+	}
+}
