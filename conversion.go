@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/dannav/hhmmss"
+	"github.com/relvacode/iso8601"
 )
 
 // ParseJavaScriptTime will convert the number of milliseconds since the Unix Epoch parameter into Golang `time` format. As a result, the output of the JavaScript `getTime()` function can be used as the parameter in this function.
@@ -34,6 +35,11 @@ func ToJavaScriptTime(t time.Time) int64 {
 // ToISO8601String will convert the Golang `Date` format into an ISO 8601 formatted date/time string.
 func ToISO8601String(t time.Time) string {
 	return t.Format(time.RFC3339) // "How to convert ISO 8601 time in golang?" via https://stackoverflow.com/a/42217963
+}
+
+func ParseISO8601String(s string) (time.Time, error) {
+	// Note: https://stackoverflow.com/q/38596079
+	return iso8601.ParseString(s)
 }
 
 // ParseBubbleTime will convert the date/time string (ex: "Nov 11, 2011 11:00 am") used "https://bubble.io" into Golang `time`. You will find need of this function if the Bubble.io app you built will be making an API call to your Golang backend server.

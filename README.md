@@ -125,3 +125,4 @@ Resource used:
 
 * [Stubbing Time.Now() in golang](https://labs.yulrizka.com/en/stubbing-time-dot-now-in-golang/) was a tremendous help in getting me to understand how to unit test with the [`time.Time`](https://pkg.go.dev/time) package.
 * [dannav/hhmmss](https://github.com/dannav/hhmmss) package is used for the Golang `hh:mm:ss` string to duration conversation method.
+* [relvacode/iso8601](https://github.com/relvacode/iso8601) package is used for dealing with ISO8601 formatted strings.

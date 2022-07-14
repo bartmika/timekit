@@ -79,6 +79,41 @@ func TestToISO8601String(t *testing.T) {
 	}
 }
 
+func TestParseISO8601String(t *testing.T) {
+
+	actual, err := ParseISO8601String("2021-10-25T09:25:00.000")
+	if err != nil {
+		t.Error(err)
+	}
+
+	// Case 1 of 3 - Correct string (see: https://stackoverflow.com/a/38596248)
+
+	loc, _ := time.LoadLocation("UTC")
+	expected := time.Date(2021, 10, 25, 9, 25, 0, 000000000, loc)
+	if actual.Equal(expected) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	// Case 2 of 3 - Correct string (see: https://stackoverflow.com/a/38596248)
+
+	actual, err = ParseISO8601String("2021-10-25T02:22:33+0000")
+	if err != nil {
+		t.Error(err)
+	}
+
+	expected = time.Date(2021, 10, 25, 2, 22, 33, 000000000, loc)
+	if actual.Equal(expected) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	// Case 3 of 3 - Incorrect string.
+
+	_, err = ParseJavaScriptTimeString("-------")
+	if err == nil {
+		t.Error("Incorrect error, should be not be nil but is nil!")
+	}
+}
+
 func TestParseBubbleTime(t *testing.T) {
 	// EXAMPLE JAVASCRIPT CODE
 	// var dt = new Date()
