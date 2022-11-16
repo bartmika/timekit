@@ -161,3 +161,22 @@ func GetFirstDateFromWeekAndYear(wk int, year int, loc *time.Location) time.Time
 func GetFirstDateFromMonthAndYear(month int, year int, loc *time.Location) time.Time {
 	return time.Date(year, time.Month(month), 1, 1, 0, 0, 0, loc)
 }
+
+// GetWeekNumberFromTotalDaysCount returns the week number from total days count. For example daysCount=8, returns=2 or daysCount=365, returned=52.
+func GetWeekNumberFromTotalDaysCount(daysCount uint64) uint64 {
+	if daysCount == 0 {
+		return 0
+	}
+
+	wk := uint64(1)
+	wkDay := uint64(0)
+	for day := uint64(0); day < daysCount; day++ {
+		if wkDay == 7 { // End of week detected
+			wkDay = 1 // Reset day of week counter to the beginning of the week.
+			wk++      // Store the fact that we are starting a new week.
+		} else {
+			wkDay++
+		}
+	}
+	return wk
+}

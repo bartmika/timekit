@@ -1,6 +1,7 @@
 package timekit
 
 import (
+	"log"
 	"testing"
 	"time"
 )
@@ -306,5 +307,43 @@ func TestGetFirstDateFromMonthAndYear(t *testing.T) {
 	actual := GetFirstDateFromMonthAndYear(1, 2022, loc)
 	if expected != actual {
 		t.Errorf("Incorrect date, got %v but was expecting %v", actual, expected)
+	}
+}
+
+func TestGetWeekNumberFromTotalDaysCount(t *testing.T) {
+	type ExpectedTestResult struct {
+		StartDay uint64
+		EndDay   uint64
+		Week     uint64
+	}
+	testData := []*ExpectedTestResult{
+		{0, 0, 0}, // This is a zero case to test for.
+
+		// DEVELOPERS NOTE: Here are some hard-coded test values. Uncomment these
+		// if you'd like to run for human-entered values instead of the for loop
+		// below.
+		// {1, 7, 1}, {8, 14, 2}, {15, 21, 3}, {22, 28, 4}, {29, 35, 5},
+		// {36, 42, 6}, {43, 49, 7},
+	}
+
+	// The following code will populate our test weeks to verify our code works.
+	days := uint64(1)
+	for wk := uint64(1); wk <= 52; wk++ {
+		testDatum := &ExpectedTestResult{days, days + 6, wk}
+		log.Println(testDatum)
+		days += 7
+		testData = append(testData, testDatum)
+	}
+
+	// Iterate through all the test data on our function and verify that the
+	// function works correctly.
+	for _, testDatum := range testData {
+		for d := uint64(testDatum.StartDay); d <= testDatum.EndDay; d++ {
+			wk := GetWeekNumberFromTotalDaysCount(d)
+			if wk != testDatum.Week {
+				t.Errorf("Incorrect week number for day #%d, got week %d but was expecting week %d", d, wk, testDatum.Week)
+				return
+			}
+		}
 	}
 }
