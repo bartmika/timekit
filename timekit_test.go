@@ -1,7 +1,6 @@
 package timekit
 
 import (
-	"log"
 	"testing"
 	"time"
 )
@@ -330,7 +329,6 @@ func TestGetWeekNumberFromTotalDaysCount(t *testing.T) {
 	days := uint64(1)
 	for wk := uint64(1); wk <= 52; wk++ {
 		testDatum := &ExpectedTestResult{days, days + 6, wk}
-		log.Println(testDatum)
 		days += 7
 		testData = append(testData, testDatum)
 	}
@@ -345,5 +343,26 @@ func TestGetWeekNumberFromTotalDaysCount(t *testing.T) {
 				return
 			}
 		}
+	}
+}
+
+func TestGetDayOfWeekUsingTomohikoSakamotoAlgorithm(t *testing.T) {
+	// Value of `1` for input of `14/09/1998` was taken from this link:
+	// for https://www.geeksforgeeks.org/find-day-of-the-week-for-a-given-date/
+	actualDay := GetDayOfWeekUsingTomohikoSakamotoAlgorithm(14, 9, 1998)
+	if actualDay != 1 {
+		t.Errorf("Incorrect actual day #%d, expecting day %d", actualDay, 1)
+	}
+
+	// Returned value of `2` for input `15/11/2022` was taken by looking in the
+	// calendar.
+	actualDay = GetDayOfWeekUsingTomohikoSakamotoAlgorithm(15, 11, 2022)
+	if actualDay != 2 {
+		t.Errorf("Incorrect actual day #%d, expecting day %d", actualDay, 1)
+	}
+	// Used calendar to for test.
+	actualDay = GetDayOfWeekUsingTomohikoSakamotoAlgorithm(1, 1, 2023)
+	if actualDay != 0 { // 0 = Sunday
+		t.Errorf("Incorrect actual day #%d, expecting day %d", actualDay, 1)
 	}
 }

@@ -180,3 +180,14 @@ func GetWeekNumberFromTotalDaysCount(daysCount uint64) uint64 {
 	}
 	return wk
 }
+
+// GetDayOfWeekUsingTomohikoSakamotoAlgorithm returns the day of the week where `0` = Sunday, `1` = Monday, etc.
+func GetDayOfWeekUsingTomohikoSakamotoAlgorithm(d uint64, m uint64, y uint64) uint64 {
+	// Please see `Sakamoto's methods` via https://en.wikipedia.org/wiki/Determination_of_the_day_of_the_week.
+	a := []uint64{0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4}
+	if m < 3 {
+		y--
+	}
+	day := (y + y/4 - y/100 + y/400 + a[m-1] + d) % 7
+	return day
+}
