@@ -102,7 +102,6 @@ func GetFutureDateByOneHourIntervalPattern(dt time.Time) time.Time {
 
 	if currMinute == 0 {
 		return dt
-	} else {
-		return time.Date(dt.Year(), dt.Month(), dt.Day(), currHour+1, 0, 0, 0, dt.Location())
 	}
+	return time.Date(dt.Year(), dt.Month(), dt.Day(), currHour+1, 0, 0, 0, dt.Location())
 }

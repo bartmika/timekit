@@ -366,3 +366,36 @@ func TestGetDayOfWeekUsingTomohikoSakamotoAlgorithm(t *testing.T) {
 		t.Errorf("Incorrect actual day #%d, expecting day %d", actualDay, 1)
 	}
 }
+
+func TestAddWeeksToTime(t *testing.T) {
+	// Stub out the `time.Now()` function with our custom value so we can
+	// simulate being in this current data.
+	loc := time.UTC // closure can be used if necessary
+
+	// Week 1
+
+	expected := time.Date(2022, 1, 8, 1, 0, 0, 0, loc)
+	dt := time.Date(2022, 1, 1, 1, 0, 0, 0, loc)
+	actual := AddWeeksToTime(dt, 1)
+	if expected != actual {
+		t.Errorf("Incorrect date, got %v but was expecting %v", actual, expected)
+	}
+
+	// Week 2
+
+	expected = time.Date(2022, 1, 15, 1, 0, 0, 0, loc)
+	dt = time.Date(2022, 1, 1, 1, 0, 0, 0, loc)
+	actual = AddWeeksToTime(dt, 2)
+	if expected != actual {
+		t.Errorf("Incorrect date, got %v but was expecting %v", actual, expected)
+	}
+
+	// Week 3
+
+	expected = time.Date(2022, 1, 22, 1, 0, 0, 0, loc)
+	dt = time.Date(2022, 1, 1, 1, 0, 0, 0, loc)
+	actual = AddWeeksToTime(dt, 3)
+	if expected != actual {
+		t.Errorf("Incorrect date, got %v but was expecting %v", actual, expected)
+	}
+}

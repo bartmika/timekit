@@ -191,3 +191,8 @@ func GetDayOfWeekUsingTomohikoSakamotoAlgorithm(d uint64, m uint64, y uint64) ui
 	day := (y + y/4 - y/100 + y/400 + a[m-1] + d) % 7
 	return day
 }
+
+// AddWeeksToTime returns new time with weeks added to it.
+func AddWeeksToTime(dt time.Time, weeks int) time.Time {
+	return dt.AddDate(0, 0, 7*weeks)
+}

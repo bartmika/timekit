@@ -37,6 +37,7 @@ func ToISO8601String(t time.Time) string {
 	return t.Format(time.RFC3339) // "How to convert ISO 8601 time in golang?" via https://stackoverflow.com/a/42217963
 }
 
+// ParseISO8601String converts ISO8601 compliant date-time string into a Golang `time.Time` object.
 func ParseISO8601String(s string) (time.Time, error) {
 	// Note: https://stackoverflow.com/q/38596079
 	return iso8601.ParseString(s)
