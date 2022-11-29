@@ -399,3 +399,53 @@ func TestAddWeeksToTime(t *testing.T) {
 		t.Errorf("Incorrect date, got %v but was expecting %v", actual, expected)
 	}
 }
+
+func timeEqual(a, b []time.Time) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
+func TestGetDatesForWeekdaysBetweenRange(t *testing.T) {
+	startDateTime := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2023
+	endDateTime := time.Date(2023, 1, 14, 0, 0, 0, 0, time.UTC)  // Jan 14th 2023
+
+	////
+	//// Case 1
+	////
+
+	weekdays := []int8{0, 1} // 0=Sunday, 1=Monday
+	expected := GetDatesForWeekdaysBetweenRange(startDateTime, endDateTime, weekdays)
+	actual := []time.Time{
+		time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC), // Sunday
+		time.Date(2023, 1, 2, 0, 0, 0, 0, time.UTC), // Monday
+		time.Date(2023, 1, 8, 0, 0, 0, 0, time.UTC), // Sunday
+		time.Date(2023, 1, 9, 0, 0, 0, 0, time.UTC), // Monday
+	}
+
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	////
+	//// Case 2
+	////
+
+	weekdays = []int8{2} // 2=Tuesday
+	expected = GetDatesForWeekdaysBetweenRange(startDateTime, endDateTime, weekdays)
+	actual = []time.Time{
+		time.Date(2023, 1, 3, 0, 0, 0, 0, time.UTC),  // Tuesday
+		time.Date(2023, 1, 10, 0, 0, 0, 0, time.UTC), // Tuesday
+	}
+
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+}

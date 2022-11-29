@@ -196,3 +196,24 @@ func GetDayOfWeekUsingTomohikoSakamotoAlgorithm(d uint64, m uint64, y uint64) ui
 func AddWeeksToTime(dt time.Time, weeks int) time.Time {
 	return dt.AddDate(0, 0, 7*weeks)
 }
+
+// GetDatesForWeekdaysBetweenRange returns all the date-times between two dates that fall for the specific picked weekdays.
+func GetDatesForWeekdaysBetweenRange(start time.Time, end time.Time, weekdays []int8) []time.Time {
+	times := []time.Time{}
+
+	// Create all the dates, incremented by day, from the start to finish datetimes.
+	dts := RangeFromTimeStepper(start, end, 0, 0, 1, 0, 0, 0)
+
+	// Iterate through all the datetimes and check to see if the weekdays match.
+	for _, dt := range dts {
+		wkInt := int8(dt.Weekday())
+
+		// Iterate through the specificed weekdays.
+		for _, weekday := range weekdays {
+			if wkInt == weekday {
+				times = append(times, dt)
+			}
+		}
+	}
+	return times
+}
