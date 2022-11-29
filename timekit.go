@@ -218,6 +218,69 @@ func GetDatesForWeekdaysBetweenRange(start time.Time, end time.Time, weekdays []
 	return times
 }
 
+func IsTimeOnFirstWeekOfMonth(pickedDT time.Time) bool {
+	currentYear, currentMonth, _ := pickedDT.Date()
+	currentLocation := pickedDT.Location()
+
+	firstDayOfMonth := time.Date(currentYear, currentMonth, 1, 0, 0, 0, 0, currentLocation)
+	lastDayOfMonth := firstDayOfMonth.AddDate(0, 1, -1)
+
+	// Create all the dates, incremented by day, from the start to finish datetimes.
+	dts := RangeFromTimeStepper(firstDayOfMonth, lastDayOfMonth, 0, 0, 1, 0, 0, 0)
+
+	var isOnFirstWeek bool = false
+	for _, dt := range dts {
+		// Get weekday integer from the current iteration date.
+		weekdayInt := int8(dt.Weekday())
+
+		// For debugging purposes only.
+		// log.Println(pickedDT, "|", dt, "|", weekdayInt, "|", pickedDT.Day(), "|", dt.Day())
+
+		// Check if the picked day falls into the range of our first week.
+		if pickedDT.Day() == dt.Day() {
+			isOnFirstWeek = true
+			break
+		}
+
+		if weekdayInt == 6 { // Last ISO week day so give up and stop loop.
+			break
+		}
+	}
+
+	return isOnFirstWeek
+}
+
+func IsTimeOnLastWeekOfMonth(pickedDT time.Time) bool {
+	currentYear, currentMonth, _ := pickedDT.Date()
+	currentLocation := pickedDT.Location()
+
+	firstDayOfMonth := time.Date(currentYear, currentMonth, 1, 0, 0, 0, 0, currentLocation)
+	lastDayOfMonth := firstDayOfMonth.AddDate(0, 1, -1)
+	lastDay := lastDayOfMonth.Day()
+
+	var isOnLastWeek bool = false
+
+	// Start backwards and try to find the first Sunday to terminate or matching.
+	for day := lastDay; day >= 1; day-- {
+		dt := time.Date(currentYear, currentMonth, day, 0, 0, 0, 0, currentLocation)
+
+		// Get weekday integer from the current iteration date.
+		weekdayInt := int8(dt.Weekday())
+
+		if dt.Day() == pickedDT.Day() {
+			isOnLastWeek = true
+			break
+		}
+
+		// If we are entering an older week then stop the loop, we did not find anything.
+		if weekdayInt == 0 {
+			break
+		}
+	}
+
+	return isOnLastWeek
+}
+
 // GetDatesByWeeklyBasedRecurringSchedule Generates a list of datetimes based on a weekly recuring schedule. Please note that dates start in first week and then week frequency is applied to restrict some weeks.
 func GetDatesByWeeklyBasedRecurringSchedule(startDT time.Time, weekdays []int8, totalWeeks int, weekFrequency int) []time.Time {
 	// Variable will store the datetimes that belong in the weekly based recurring schedule.
@@ -258,5 +321,105 @@ func GetDatesByWeeklyBasedRecurringSchedule(startDT time.Time, weekdays []int8, 
 		// We finished processing this day so keep track in our day iterator and continue.
 		dayIterator++
 	}
+	return scheduleTimes
+}
+
+// GetDatesForExactDayByMonthlyBasedRecurringSchedule Generates a list of datetimes based on a monthly recuring schedule for the specific day number.
+func GetDatesForExactDayByMonthlyBasedRecurringSchedule(startDT time.Time, totalMonths int, onExactDay int) []time.Time {
+	// Variable will store the datetimes that belong in the monthly based recurring schedule.
+	scheduleTimes := []time.Time{}
+
+	// Variable will calculate the last date based on total weeks in schedule.
+	endDT := startDT.AddDate(0, totalMonths-1, 0)
+
+	// Create all the dates, incremented by day, from the start to finish datetimes.
+	dts := RangeFromTimeStepper(startDT, endDT, 0, 0, 1, 0, 0, 0)
+
+	// Iterate through all the days between the start to end date.
+	for _, todayDT := range dts {
+		if onExactDay == todayDT.Day() {
+			scheduleTimes = append(scheduleTimes, todayDT)
+		}
+	}
+
+	return scheduleTimes
+}
+
+// GetDatesForFirstWeekDayByMonthlyBasedRecurringSchedule Generates a list of datetimes based on a monthly recuring schedule which will find all the dates that fall on the weekday of the first week.
+func GetDatesForFirstWeekDayByMonthlyBasedRecurringSchedule(startDT time.Time, totalMonths int, onFirstWeekday int) []time.Time {
+	// Variable will store the datetimes that belong in the monthly based recurring schedule.
+	scheduleTimes := []time.Time{}
+
+	// Variable will calculate the last date based on total weeks in schedule.
+	endDT := startDT.AddDate(0, totalMonths-1, 7) // Why "7"? Just to take into account extra week so we can handle for that particular months first week.
+
+	// Create all the dates, incremented by day, from the start to finish datetimes.
+	dts := RangeFromTimeStepper(startDT, endDT, 0, 0, 1, 0, 0, 0)
+
+	monthIterator := startDT.Month()
+
+	// Iterate through all the days between the start to end date.
+	for _, todayDT := range dts {
+
+		// Get weekday integer from the current iteration date.
+		todayWeekdayInt := int(todayDT.Weekday())
+
+		// If the picked day match the current day.
+		if todayWeekdayInt == onFirstWeekday {
+
+			// And if we are looking at the correct monthly then save.
+			if monthIterator == todayDT.Month() {
+				scheduleTimes = append(scheduleTimes, todayDT)
+
+				// We already have the first occurance of the date for this
+				// month so we can increment the month iterator so we know we
+				// need to look for our next month.
+				monthIterator++
+			}
+		}
+	}
+
+	return scheduleTimes
+}
+
+// GetDatesForLastWeekDayByMonthlyBasedRecurringSchedule Generates a list of datetimes based on a monthly recuring schedule which will find all the dates that fall on the weekday of the last week.
+func GetDatesForLastWeekDayByMonthlyBasedRecurringSchedule(startDT time.Time, totalMonths int, onLastWeekday int) []time.Time {
+	// Variable will store the datetimes that belong in the monthly based recurring schedule.
+	scheduleTimes := []time.Time{}
+
+	// Variable will calculate the last date based on total weeks in schedule.
+	endDT := startDT.AddDate(0, totalMonths, 0) // Why "7"? Just to take into account extra week so we can handle for that particular months first week.
+
+	// Create all the dates, incremented by day, from the start to finish datetimes.
+	dts := RangeFromTimeStepper(startDT, endDT, 0, 0, 1, 0, 0, 0)
+
+	monthIterator := startDT.Month()
+
+	// Iterate through all the days between the start to end date.
+	for _, todayDT := range dts {
+
+		// Check to see if the current date we are iterating through is part of
+		if IsTimeOnLastWeekOfMonth(todayDT) {
+
+			// Get weekday integer from the current iteration date.
+			todayWeekdayInt := int(todayDT.Weekday())
+
+			// If the picked day match the current day.
+			if todayWeekdayInt == onLastWeekday {
+
+				// And if we are looking at the correct monthly then save.
+				if monthIterator == todayDT.Month() {
+					scheduleTimes = append(scheduleTimes, todayDT)
+
+					// We already have the first occurance of the date for this
+					// month so we can increment the month iterator so we know we
+					// need to look for our next month.
+					monthIterator++
+				}
+			}
+		}
+
+	}
+
 	return scheduleTimes
 }

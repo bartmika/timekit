@@ -455,6 +455,36 @@ func TestGetDatesForWeekdaysBetweenRange(t *testing.T) {
 	////
 }
 
+func TestIsTimeOnFirstWeekOfMonth(t *testing.T) {
+	if IsTimeOnFirstWeekOfMonth(time.Date(2022, 12, 3, 0, 0, 0, 0, time.UTC)) == false { // Dec 3ed 2022 | First Week
+		t.Error("Incorrect value - this is the first week!")
+	}
+	if IsTimeOnFirstWeekOfMonth(time.Date(2022, 12, 7, 0, 0, 0, 0, time.UTC)) == true { // Dec 12th 2022 | Second Week
+		t.Error("Incorrect value - this is not the first week")
+	}
+	if IsTimeOnFirstWeekOfMonth(time.Date(2022, 25, 7, 0, 0, 0, 0, time.UTC)) == true { // Dec 25rh 2022 | Last Week
+		t.Error("Incorrect value - this is not the first week")
+	}
+	if IsTimeOnFirstWeekOfMonth(time.Date(2023, 4, 1, 0, 0, 0, 0, time.UTC)) == false { // April 1st 2023 | First Week | Good test case because lands on a Saturday!
+		t.Error("Incorrect value - this is on the first week")
+	}
+}
+
+func TestIsTimeOnLastWeekOfMonth(t *testing.T) {
+	if IsTimeOnLastWeekOfMonth(time.Date(2023, 4, 30, 0, 0, 0, 0, time.UTC)) == false { // April 30th, 2023 | Last week | On a Sunday.
+		t.Error("Incorrect value - this is the last week!")
+	}
+	if IsTimeOnLastWeekOfMonth(time.Date(2023, 4, 17, 0, 0, 0, 0, time.UTC)) == true { // April 17th, 2023
+		t.Error("Incorrect value - this is not on the last week!")
+	}
+	if IsTimeOnLastWeekOfMonth(time.Date(2023, 3, 27, 0, 0, 0, 0, time.UTC)) == false { // Marsh 27th, 2023 | Last week | On a Monday.
+		t.Error("Incorrect value - this is the last week!")
+	}
+	if IsTimeOnLastWeekOfMonth(time.Date(2022, 12, 3, 0, 0, 0, 0, time.UTC)) == true { // Dec 3ed 2022 | First Week
+		t.Error("Incorrect value - this is not on the last week!")
+	}
+}
+
 func TestGetDatesByWeeklyBasedRecurringSchedule(t *testing.T) {
 	////
 	//// Case 1: Run every 2 weeks for a total of 4 weeks selecting only Sunday
@@ -535,4 +565,130 @@ func TestGetDatesByWeeklyBasedRecurringSchedule(t *testing.T) {
 	////         submit an issue via https://github.com/bartmika/timekit/issues
 	////         or contribute via https://github.com/bartmika/timekit/compare.
 	////
+}
+
+func TestGetDatesForExactDayByMonthlyBasedRecurringSchedule(t *testing.T) {
+
+	////
+	//// Case 1: Simple test.
+	////
+
+	totalMonths := int(4) // There will be a maximum of 4 months in our schedule.
+
+	// --- Start on a Sunday. --- //
+
+	startDateTime := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2023
+	actual := GetDatesForExactDayByMonthlyBasedRecurringSchedule(startDateTime, totalMonths, 1)
+	expected := []time.Time{
+		time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 2, 1, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 3, 1, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 4, 1, 0, 0, 0, 0, time.UTC),
+	}
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	////
+	//// Case 2: Another simple test.
+	////
+
+	totalMonths = int(2) // There will be a maximum of 2 months in our schedule.
+
+	// --- Start on a Sunday. --- //
+
+	startDateTime = time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2023
+	actual = GetDatesForExactDayByMonthlyBasedRecurringSchedule(startDateTime, totalMonths, 1)
+	expected = []time.Time{
+		time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 2, 1, 0, 0, 0, 0, time.UTC),
+	}
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	////
+	//// Case 3: Yet another simple test.
+	////
+
+	totalMonths = int(1) // There will be a maximum of 2 months in our schedule.
+
+	// --- Start on a Sunday. --- //
+
+	startDateTime = time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2023
+	actual = GetDatesForExactDayByMonthlyBasedRecurringSchedule(startDateTime, totalMonths, 1)
+	expected = []time.Time{
+		time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),
+	}
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	////
+	//// Case X: Do you have an idea to help improve the quality? Feel free to
+	////         submit an issue via https://github.com/bartmika/timekit/issues
+	////         or contribute via https://github.com/bartmika/timekit/compare.
+	////
+}
+
+func TestGetDatesForFirstDayByMonthlyBasedRecurringSchedule(t *testing.T) {
+	////
+	//// Case 1: Test.
+	////
+
+	totalMonths := int(4)                                                                           // There will be a maximum of 4 months in our schedule.
+	startDateTime := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)                                    // Jan 1st 2023
+	actual := GetDatesForFirstWeekDayByMonthlyBasedRecurringSchedule(startDateTime, totalMonths, 1) // 1 = Monday
+	expected := []time.Time{
+		time.Date(2023, 1, 2, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 2, 6, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 3, 6, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 4, 3, 0, 0, 0, 0, time.UTC),
+	}
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	////
+	//// Case 2: Another test.
+	////
+
+	totalMonths = int(4)                                                                           // There will be a maximum of 4 months in our schedule.
+	startDateTime = time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)                                    // Jan 1st 2023
+	actual = GetDatesForFirstWeekDayByMonthlyBasedRecurringSchedule(startDateTime, totalMonths, 6) // 6 = Saturday
+	expected = []time.Time{
+		time.Date(2023, 1, 7, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 2, 4, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 3, 4, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 4, 1, 0, 0, 0, 0, time.UTC),
+	}
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	////
+	//// Case X: Do you have an idea to help improve the quality? Feel free to
+	////         submit an issue via https://github.com/bartmika/timekit/issues
+	////         or contribute via https://github.com/bartmika/timekit/compare.
+	////
+}
+
+func TestGetDatesForLastWeekDayByMonthlyBasedRecurringSchedule(t *testing.T) {
+	////
+	//// Case 1: Test.
+	////
+
+	totalMonths := int(4)                                                                          // There will be a maximum of 4 months in our schedule.
+	startDateTime := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC)                                   // Jan 1st 2023
+	actual := GetDatesForLastWeekDayByMonthlyBasedRecurringSchedule(startDateTime, totalMonths, 1) // 1 = Monday
+	expected := []time.Time{
+		time.Date(2023, 1, 30, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 2, 27, 0, 0, 0, 0, time.UTC),
+		time.Date(2023, 3, 27, 0, 0, 0, 0, time.UTC),
+		// time.Date(2023, 4, 24, 0, 0, 0, 0, time.UTC), This will not exist because we have a single Sunday 30th for ISO week.
+	}
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
 }
