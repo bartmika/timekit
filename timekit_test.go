@@ -448,4 +448,91 @@ func TestGetDatesForWeekdaysBetweenRange(t *testing.T) {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
 
+	////
+	//// Case X: Do you have an idea to help improve the quality? Feel free to
+	////         submit an issue via https://github.com/bartmika/timekit/issues
+	////         or contribute via https://github.com/bartmika/timekit/compare.
+	////
+}
+
+func TestGetDatesByWeeklyBasedRecurringSchedule(t *testing.T) {
+	////
+	//// Case 1: Run every 2 weeks for a total of 4 weeks selecting only Sunday
+	////         and mondays in the week.
+	////
+
+	weekdays := []int8{0, 1} // 0=Sunday, 1=Monday
+	totalWeeks := int(4)     // There will be a maximum of 4 weeks in our schedule.
+	weekFrequency := int(2)  // A.k.a. every 2 weeks
+
+	// --- Start on a Sunday. --- //
+
+	startDateTime := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2023
+	actual := GetDatesByWeeklyBasedRecurringSchedule(startDateTime, weekdays, totalWeeks, weekFrequency)
+	expected := []time.Time{
+		time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC),  // Sunday
+		time.Date(2023, 1, 2, 0, 0, 0, 0, time.UTC),  // Monday
+		time.Date(2023, 1, 15, 0, 0, 0, 0, time.UTC), // Sunday
+		time.Date(2023, 1, 16, 0, 0, 0, 0, time.UTC), // Monday
+	}
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	// --- Start in the middle of the week. --- //
+
+	startDateTime = time.Date(2023, 1, 4, 0, 0, 0, 0, time.UTC) // Jan 4th 2023
+	actual = GetDatesByWeeklyBasedRecurringSchedule(startDateTime, weekdays, totalWeeks, weekFrequency)
+	expected = []time.Time{
+		time.Date(2023, 1, 8, 0, 0, 0, 0, time.UTC),  // Sunday
+		time.Date(2023, 1, 9, 0, 0, 0, 0, time.UTC),  // Monday
+		time.Date(2023, 1, 22, 0, 0, 0, 0, time.UTC), // Sunday
+		time.Date(2023, 1, 23, 0, 0, 0, 0, time.UTC), // Monday
+	}
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	// --- Start at the end of the week. --- //
+
+	startDateTime = time.Date(2023, 1, 6, 0, 0, 0, 0, time.UTC) // Jan 4th 2023
+	actual = GetDatesByWeeklyBasedRecurringSchedule(startDateTime, weekdays, totalWeeks, weekFrequency)
+	expected = []time.Time{
+		time.Date(2023, 1, 8, 0, 0, 0, 0, time.UTC),  // Sunday
+		time.Date(2023, 1, 9, 0, 0, 0, 0, time.UTC),  // Monday
+		time.Date(2023, 1, 22, 0, 0, 0, 0, time.UTC), // Sunday
+		time.Date(2023, 1, 23, 0, 0, 0, 0, time.UTC), // Monday
+	}
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	////
+	//// Case 2: Run every week for a total of 5 weeks selecting only Friday
+	////         and Saturday every week. Start first day in month.
+	///
+
+	weekdays = []int8{5, 6} // 5=Friday, 6=Saturday
+	totalWeeks = int(4)     // There will be a maximum of 5 weeks in our schedule.
+	weekFrequency = int(1)  // A.k.a. every week
+
+	startDateTime = time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2023
+	actual = GetDatesByWeeklyBasedRecurringSchedule(startDateTime, weekdays, totalWeeks, weekFrequency)
+	expected = []time.Time{
+		time.Date(2023, 1, 6, 0, 0, 0, 0, time.UTC),  // Friday
+		time.Date(2023, 1, 7, 0, 0, 0, 0, time.UTC),  // Saturday
+		time.Date(2023, 1, 13, 0, 0, 0, 0, time.UTC), // Friday
+		time.Date(2023, 1, 14, 0, 0, 0, 0, time.UTC), // Saturday
+		time.Date(2023, 1, 20, 0, 0, 0, 0, time.UTC), // Friday
+		time.Date(2023, 1, 21, 0, 0, 0, 0, time.UTC), // Saturday
+	}
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	////
+	//// Case X: Do you have an idea to help improve the quality? Feel free to
+	////         submit an issue via https://github.com/bartmika/timekit/issues
+	////         or contribute via https://github.com/bartmika/timekit/compare.
+	////
 }

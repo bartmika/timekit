@@ -217,3 +217,46 @@ func GetDatesForWeekdaysBetweenRange(start time.Time, end time.Time, weekdays []
 	}
 	return times
 }
+
+// GetDatesByWeeklyBasedRecurringSchedule Generates a list of datetimes based on a weekly recuring schedule. Please note that dates start in first week and then week frequency is applied to restrict some weeks.
+func GetDatesByWeeklyBasedRecurringSchedule(startDT time.Time, weekdays []int8, totalWeeks int, weekFrequency int) []time.Time {
+	// Variable will store the datetimes that belong in the weekly based recurring schedule.
+	scheduleTimes := []time.Time{}
+
+	// Variable will calculate the last date based on total weeks in schedule.
+	endDT := AddWeeksToTime(startDT, totalWeeks-1)
+
+	// Create all the dates, incremented by day, from the start to finish datetimes.
+	dts := RangeFromTimeStepper(startDT, endDT, 0, 0, 1, 0, 0, 0)
+
+	// Variable is used to track when to trigger creation of the scheduled time.
+	var weekFrequencyIterator int = 0
+
+	// Variable used to track how many days have elapsed.
+	var dayIterator int = 0
+
+	// Iterate through all the days between the start to end date.
+	for _, todayDT := range dts {
+		// Get weekday integer from the current iteration date.
+		weekdayInt := int8(todayDT.Weekday())
+
+		// If seven days elapsed then the end of the week occured.
+		if dayIterator%7 == 0 && dayIterator != 0 {
+			weekFrequencyIterator++
+		}
+
+		// Iterate through the picked weekdays that the user has chosen and see
+		// if today's date
+		for _, weekday := range weekdays {
+			if weekdayInt == weekday {
+				if weekFrequencyIterator%weekFrequency == 0 {
+					scheduleTimes = append(scheduleTimes, todayDT)
+				}
+			}
+		}
+
+		// We finished processing this day so keep track in our day iterator and continue.
+		dayIterator++
+	}
+	return scheduleTimes
+}
