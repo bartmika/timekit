@@ -570,12 +570,10 @@ func TestGetDatesByWeeklyBasedRecurringSchedule(t *testing.T) {
 func TestGetDatesForExactDayByMonthlyBasedRecurringSchedule(t *testing.T) {
 
 	////
-	//// Case 1: Simple test.
+	//// Test 1
 	////
 
 	totalMonths := int(4) // There will be a maximum of 4 months in our schedule.
-
-	// --- Start on a Sunday. --- //
 
 	startDateTime := time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2023
 	actual := GetDatesForExactDayByMonthlyBasedRecurringSchedule(startDateTime, totalMonths, 1)
@@ -590,12 +588,10 @@ func TestGetDatesForExactDayByMonthlyBasedRecurringSchedule(t *testing.T) {
 	}
 
 	////
-	//// Case 2: Another simple test.
+	//// Test 2
 	////
 
 	totalMonths = int(2) // There will be a maximum of 2 months in our schedule.
-
-	// --- Start on a Sunday. --- //
 
 	startDateTime = time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2023
 	actual = GetDatesForExactDayByMonthlyBasedRecurringSchedule(startDateTime, totalMonths, 1)
@@ -608,12 +604,10 @@ func TestGetDatesForExactDayByMonthlyBasedRecurringSchedule(t *testing.T) {
 	}
 
 	////
-	//// Case 3: Yet another simple test.
+	//// Test 3
 	////
 
 	totalMonths = int(1) // There will be a maximum of 2 months in our schedule.
-
-	// --- Start on a Sunday. --- //
 
 	startDateTime = time.Date(2023, 1, 1, 0, 0, 0, 0, time.UTC) // Jan 1st 2023
 	actual = GetDatesForExactDayByMonthlyBasedRecurringSchedule(startDateTime, totalMonths, 1)
@@ -625,7 +619,23 @@ func TestGetDatesForExactDayByMonthlyBasedRecurringSchedule(t *testing.T) {
 	}
 
 	////
-	//// Case X: Do you have an idea to help improve the quality? Feel free to
+	//// Test 4
+	////
+
+	totalMonths = int(3)
+
+	startDateTime = time.Date(2006, 1, 2, 15, 04, 05, 0, time.UTC) // Jan 1st 2023
+	actual = GetDatesForExactDayByMonthlyBasedRecurringSchedule(startDateTime, totalMonths, 1)
+	expected = []time.Time{
+		time.Date(2006, 2, 1, 15, 4, 5, 0, time.UTC),
+		time.Date(2006, 3, 1, 15, 4, 5, 0, time.UTC),
+	}
+	if timeEqual(expected, actual) == false {
+		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
+	}
+
+	////
+	//// Test X: Do you have an idea to help improve the quality? Feel free to
 	////         submit an issue via https://github.com/bartmika/timekit/issues
 	////         or contribute via https://github.com/bartmika/timekit/compare.
 	////
