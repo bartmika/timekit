@@ -25,3 +25,9 @@ func IsNight(t time.Time) bool {
 	hour := t.Hour()
 	return hour >= 20 && hour < 24
 }
+
+// IsAfter6PM returns true if time is after 6PM.
+func IsAfter6PM(t time.Time) bool {
+	hour := t.Hour()
+	return hour >= 18 && hour < 20
+}

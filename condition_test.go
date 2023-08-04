@@ -48,3 +48,14 @@ func TestIsNight(t *testing.T) {
 		t.Error("Incorrect condition, expected true but got false")
 	}
 }
+
+func TestIsAfter6PM(t *testing.T) {
+	loc, _ := time.LoadLocation("America/Toronto")
+
+	if IsAfter6PM(time.Date(2022, 1, 24, 1, 45, 22, 380000000, loc)) { // 2022-01-24 1:45:22.38 -0500 EST
+		t.Error("Incorrect condition, expected false but got true")
+	}
+	if !IsAfter6PM(time.Date(2022, 1, 24, 22, 45, 22, 380000000, loc)) { // 2022-01-24 22:45:22.38 -0500 EST
+		t.Error("Incorrect condition, expected true but got false")
+	}
+}
