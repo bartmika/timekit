@@ -1,7 +1,6 @@
 package timekit
 
 import (
-	"fmt"
 	"testing"
 	"time"
 )
@@ -36,8 +35,8 @@ func TestRandomDateIntervals(t *testing.T) {
 			t.Errorf("Incorrect date, got %s but was greater then end date", dr.Finish)
 		}
 
-		// For debugging purposes only.
-		fmt.Println("startDT:", dr.Start, "finishDT:", dr.Finish)
+		// // For debugging purposes only.
+		// fmt.Println("startDT:", dr.Start, "finishDT:", dr.Finish)
 	}
 }
 
@@ -49,19 +48,14 @@ func TestRandomSegmentedDateIntervals(t *testing.T) {
 	segments := RandomSegmentedDateIntervals(startDateTime, endDateTime, maxSeconds, totalSegments)
 
 	for _, segment := range segments {
-		fmt.Printf("Segment %v", segment)
-
-		for _, segment := range segments {
-			if segment.Interval.Start.Before(startDateTime) {
-				t.Errorf("Incorrect date, got %s but was less then start date", segment.Interval.Start)
-			}
-			if segment.Interval.Finish.After(endDateTime) {
-				t.Errorf("Incorrect date, got %s but was greater then end date", segment.Interval.Finish)
-			}
-
-			// For debugging purposes only.
-			fmt.Printf("segment %v > interval %v\n", segment.ID, segment.Interval)
+		if segment.Interval.Start.Before(startDateTime) {
+			t.Errorf("Incorrect date, got %s but was less then start date", segment.Interval.Start)
+		}
+		if segment.Interval.Finish.After(endDateTime) {
+			t.Errorf("Incorrect date, got %s but was greater then end date", segment.Interval.Finish)
 		}
 
+		// // For debugging purposes only.
+		// fmt.Printf("segment %v > interval %v\n", segment.ID, segment.Interval)
 	}
 }

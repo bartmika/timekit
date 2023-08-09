@@ -54,3 +54,13 @@ func ParseHourMinuteSecondDurationString(s string) (time.Duration, error) {
 	// Note: https://github.com/dannav/hhmmss
 	return hhmmss.Parse(s)
 }
+
+// ToAmericanDateTimeString will convert the Golang Date/Time format into the American style of notation string as mentioned via https://en.wikipedia.org/wiki/Date_and_time_notation_in_the_United_States.
+func ToAmericanDateTimeString(t time.Time) string {
+	return t.Format("January 2, 2006 3:04:05 PM")
+}
+
+// ToAmericanDateString will convert the Golang Date/Time format into the American style of notation string as mentioned via https://en.wikipedia.org/wiki/Date_and_time_notation_in_the_United_States.
+func ToAmericanDateString(t time.Time) string {
+	return t.Format("January 2, 2006")
+}

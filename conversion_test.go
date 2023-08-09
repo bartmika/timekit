@@ -173,3 +173,27 @@ func TestParseHourMinuteSecondDurationString(t *testing.T) {
 		t.Error("Incorrect error, should be not be nil but is nil!")
 	}
 }
+
+func TestToAmericanDateTimeString(t *testing.T) {
+	loc, _ := time.LoadLocation("America/Toronto")
+	goTime := time.Date(2022, 1, 24, 22, 45, 22, 380000000, loc) // 2022-01-24 22:45:22.38 -0500 EST
+
+	actual := ToAmericanDateTimeString(goTime)
+	expected := "January 24, 2022 10:45:22 PM"
+
+	if actual != expected {
+		t.Errorf("Incorrect ISO 8601 date, got %v but was expecting %v", actual, expected)
+	}
+}
+
+func TestToAmericanDateString(t *testing.T) {
+	loc, _ := time.LoadLocation("America/Toronto")
+	goTime := time.Date(2022, 1, 24, 22, 45, 22, 380000000, loc) // 2022-01-24 22:45:22.38 -0500 EST
+
+	actual := ToAmericanDateString(goTime)
+	expected := "January 24, 2022"
+
+	if actual != expected {
+		t.Errorf("Incorrect ISO 8601 date, got %v but was expecting %v", actual, expected)
+	}
+}
