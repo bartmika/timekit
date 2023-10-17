@@ -197,3 +197,15 @@ func TestToAmericanDateString(t *testing.T) {
 		t.Errorf("Incorrect ISO 8601 date, got %v but was expecting %v", actual, expected)
 	}
 }
+
+func TestTo1AM(t *testing.T) {
+	loc, _ := time.LoadLocation("America/Toronto")
+	goTime := time.Date(2022, 1, 24, 22, 45, 22, 380000000, loc) // 2022-01-24 22:45:22.38 -0500 EST
+
+	actual := To1AM(goTime)
+	expected := time.Date(2022, 1, 24, 1, 00, 00, 000000000, loc) // 2022-01-24 1:00:00.00 -0500 EST
+
+	if actual != expected {
+		t.Errorf("Incorrect date, got %v but was expecting %v", actual, expected)
+	}
+}

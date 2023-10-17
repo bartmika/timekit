@@ -64,3 +64,10 @@ func ToAmericanDateTimeString(t time.Time) string {
 func ToAmericanDateString(t time.Time) string {
 	return t.Format("January 2, 2006")
 }
+
+// To1AM will take entered date/time and return same date but time starts at 1 AM (01:00:00).
+func To1AM(t time.Time) time.Time {
+	// Create a new time.Time with the same date but set the time to 1 AM (01:00:00).
+	oneAM := time.Date(t.Year(), t.Month(), t.Day(), 1, 0, 0, 0, t.Location())
+	return oneAM
+}
