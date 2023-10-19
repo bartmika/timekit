@@ -80,3 +80,12 @@ func GetMonthAbbreviation(month time.Month) string {
 	}
 	return abbreviation
 }
+
+// GetMonthAbbreviationByInt returns the 3-character abbreviation for the provided month number.
+func GetMonthAbbreviationByInt(month int) string {
+	abbreviation, found := monthNumberAbbreviations[month]
+	if !found {
+		return ""
+	}
+	return abbreviation
+}

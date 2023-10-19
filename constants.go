@@ -20,3 +20,19 @@ var monthAbbreviations = map[time.Month]string{
 	time.November:  "Nov",
 	time.December:  "Dec",
 }
+
+// monthNumberAbbreviations is a mapping from month numbers (1 to 12) to their three-letter abbreviations.
+var monthNumberAbbreviations = map[int]string{
+	1:  "Jan", // January
+	2:  "Feb", // February
+	3:  "Mar", // March
+	4:  "Apr", // April
+	5:  "May", // May
+	6:  "Jun", // June
+	7:  "Jul", // July
+	8:  "Aug", // August
+	9:  "Sep", // September
+	10: "Oct", // October
+	11: "Nov", // November
+	12: "Dec", // December
+}

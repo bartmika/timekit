@@ -227,6 +227,7 @@ func TestGetMonthAbbreviation(t *testing.T) {
 		{time.October, "Oct"},
 		{time.November, "Nov"},
 		{time.December, "Dec"},
+		{time.January - 1, ""}, // This case should return an empty string.
 	}
 
 	for _, tc := range testCases {
@@ -237,4 +238,24 @@ func TestGetMonthAbbreviation(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestGetMonthAbbreviationByInt(t *testing.T) {
+	t.Run("ValidMonth", func(t *testing.T) {
+		month := 3
+		abbreviation := GetMonthAbbreviationByInt(month)
+		expected := "Mar"
+		if abbreviation != expected {
+			t.Errorf("Expected abbreviation for March is %s, but got %s", expected, abbreviation)
+		}
+	})
+
+	t.Run("InvalidMonth", func(t *testing.T) { // This case should return an empty string.
+		month := 13
+		abbreviation := GetMonthAbbreviationByInt(month)
+		expected := ""
+		if abbreviation != expected {
+			t.Errorf("Expected abbreviation for an invalid month is an empty string, but got %s", abbreviation)
+		}
+	})
 }
