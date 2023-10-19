@@ -71,3 +71,12 @@ func To1AM(t time.Time) time.Time {
 	oneAM := time.Date(t.Year(), t.Month(), t.Day(), 1, 0, 0, 0, t.Location())
 	return oneAM
 }
+
+// GetMonthAbbreviation returns the 3-character abbreviation for the provided month.
+func GetMonthAbbreviation(month time.Month) string {
+	abbreviation, found := monthAbbreviations[month]
+	if !found {
+		return ""
+	}
+	return abbreviation
+}

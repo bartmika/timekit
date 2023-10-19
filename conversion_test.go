@@ -209,3 +209,32 @@ func TestTo1AM(t *testing.T) {
 		t.Errorf("Incorrect date, got %v but was expecting %v", actual, expected)
 	}
 }
+
+func TestGetMonthAbbreviation(t *testing.T) {
+	testCases := []struct {
+		input    time.Month
+		expected string
+	}{
+		{time.January, "Jan"},
+		{time.February, "Feb"},
+		{time.March, "Mar"},
+		{time.April, "Apr"},
+		{time.May, "May"},
+		{time.June, "Jun"},
+		{time.July, "Jul"},
+		{time.August, "Aug"},
+		{time.September, "Sep"},
+		{time.October, "Oct"},
+		{time.November, "Nov"},
+		{time.December, "Dec"},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.input.String(), func(t *testing.T) {
+			result := GetMonthAbbreviation(tc.input)
+			if result != tc.expected {
+				t.Errorf("Expected abbreviation for %s is %s, but got %s", tc.input, tc.expected, result)
+			}
+		})
+	}
+}
