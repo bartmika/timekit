@@ -169,7 +169,7 @@ func TestFirstDayOfLastISOWeek(t *testing.T) {
 	}
 
 	actual := FirstDayOfLastISOWeek(timeFn)
-	expected := time.Date(2021, 12, 27, 1, 0, 0, 0, time.UTC) // Monday Jan 3ed
+	expected := time.Date(2021, 12, 27, 0, 0, 0, 0, time.UTC) // Monday Jan 3ed (Midnight - Start of day)
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
@@ -184,7 +184,7 @@ func TestFirstDayOfThisISOWeek(t *testing.T) {
 	}
 
 	actual := FirstDayOfThisISOWeek(timeFn)
-	expected := time.Date(2022, 1, 3, 1, 0, 0, 0, time.UTC) // Monday Jan 3ed
+	expected := time.Date(2022, 1, 3, 0, 0, 0, 0, time.UTC) // Monday Jan 3ed (Midnight - Start of day)
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
@@ -199,7 +199,7 @@ func TestLastDayOfThisISOWeek(t *testing.T) {
 	}
 
 	actual := LastDayOfThisISOWeek(timeFn)
-	expected := time.Date(2022, 1, 9, 1, 0, 0, 0, time.UTC) // Sunday Jan 9th
+	expected := time.Date(2022, 1, 9, 0, 0, 0, 0, time.UTC) // Sunday Jan 9th (Midnight - Start of day)
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
@@ -214,7 +214,7 @@ func TestFirstDayOfNextISOWeek(t *testing.T) {
 	}
 
 	actual := FirstDayOfNextISOWeek(timeFn)
-	expected := time.Date(2022, 1, 10, 1, 0, 0, 0, time.UTC) // Monday Jan 10th
+	expected := time.Date(2022, 1, 10, 0, 0, 0, 0, time.UTC) // Monday Jan 10th (Midnight - Start of day)
 	if actual != expected {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}

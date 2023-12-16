@@ -79,7 +79,7 @@ func FirstDayOfLastISOWeek(now func() time.Time) time.Time {
 		dt = dt.AddDate(0, 0, -1)
 	}
 
-	return dt
+	return time.Date(dt.Year(), dt.Month(), dt.Day(), 0, 0, 0, 0, dt.Location()) // Get midnight of this day.
 }
 
 // FirstDayOfThisISOWeek return monday's date of this week. Please note monday is considered the first day of the week according to ISO 8601 and not sunday (which is what is used in Canada and USA).
@@ -91,7 +91,7 @@ func FirstDayOfThisISOWeek(now func() time.Time) time.Time {
 		dt = dt.AddDate(0, 0, -1)
 	}
 
-	return dt
+	return time.Date(dt.Year(), dt.Month(), dt.Day(), 0, 0, 0, 0, dt.Location()) // Get midnight of this day.
 }
 
 // LastDayOfThisISOWeek return sunday's date of this week. Please note sunday is considered the last day of the week according to ISO 8601.
@@ -103,7 +103,7 @@ func LastDayOfThisISOWeek(now func() time.Time) time.Time {
 		dt = dt.AddDate(0, 0, 1)
 	}
 
-	return dt
+	return time.Date(dt.Year(), dt.Month(), dt.Day(), 0, 0, 0, 0, dt.Location()) // Get midnight of this day.
 }
 
 // FirstDayOfNextISOWeek return date of the upcoming monday.
@@ -115,7 +115,7 @@ func FirstDayOfNextISOWeek(now func() time.Time) time.Time {
 		dt = dt.AddDate(0, 0, 1)
 	}
 
-	return dt
+	return time.Date(dt.Year(), dt.Month(), dt.Day(), 0, 0, 0, 0, dt.Location()) // Get midnight of this day.
 }
 
 // IsFirstDayOfYear returns true or false depending on whether the date inputted falls on the very first day of the year.
