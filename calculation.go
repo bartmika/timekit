@@ -108,14 +108,36 @@ func LastDayOfThisISOWeek(now func() time.Time) time.Time {
 
 // FirstDayOfNextISOWeek return date of the upcoming monday.
 func FirstDayOfNextISOWeek(now func() time.Time) time.Time {
-	dt := now()
+	startAt := now()
 
-	// iterate forward to next Monday
-	for dt.Weekday() != time.Monday {
-		dt = dt.AddDate(0, 0, 1)
+	// CASE 1 OF 2: Today is monday, therefore simply add seven to current
+	//              date/time and return.
+	if startAt.Weekday() == time.Monday {
+		// Generate new date 7 days from now to start at the next monday.
+		return time.Date(startAt.Year(), startAt.Month(), startAt.Day()+7, 0, 0, 0, 0, startAt.Location())
+	}
+	// Case 2 of 2: Today is not monday so we must find the next instance of it.
+
+	// Variable holds additional 7 days to current start date so we have an
+	// extra week to look through.
+	endAt := now().AddDate(0, 0, 7)
+
+	// Create a time-stepper go iterate per day from today to finish date and
+	// then stop at monday.
+	ts := NewTimeStepper(startAt, endAt, 0, 0, 1, 0, 0, 0)
+
+	var dt time.Time
+
+	// Itere through all the steps until you land on a `monday`.
+	for ts.Next() {
+		dt = ts.Get()
+		if dt.Weekday() == time.Monday {
+			break
+		}
 	}
 
-	return time.Date(dt.Year(), dt.Month(), dt.Day(), 0, 0, 0, 0, dt.Location()) // Get midnight of this day.
+	// Return the midnight time of the current date.
+	return time.Date(dt.Year(), dt.Month(), dt.Day(), 0, 0, 0, 0, dt.Location())
 }
 
 // IsFirstDayOfYear returns true or false depending on whether the date inputted falls on the very first day of the year.
