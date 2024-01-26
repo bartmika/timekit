@@ -445,3 +445,29 @@ func GetDatesForLastWeekDayByMonthlyBasedRecurringSchedule(startDT time.Time, to
 
 	return scheduleTimes
 }
+
+// GetHourRange function will take a date value and return two date times:
+// (1) The first date time will take the date and discard the minutes, so for
+// example if you give 12:30 PM then it will return 12:00 PM.
+// (2) The second date time will disacrd the minutes and increase by 1 hour,
+// for example if you give 12:30 PM then it will return 1:00 PM.
+// Therefore the purpose of this function is to provide an hourly range for
+// the inputted parameter. For example if I say 12:300 PM then this function
+// will return 12:00 PM & 1:00 AM.
+//
+// Developers Note: This would be useful to you if are building analytics engine
+// which must group certain miunute based datapoints / timeseries into hours.
+//
+// Here are some more examples to help you visualize:
+// Monday Dec 18th - 9:30 AM --> (1) Monday Dec 18th - 9:00 AM and (2) Monday Dec 18th - 10:00 AM
+// Monday Dec 18th - 5:10 PM --> (1) Monday Dec 18th - 5:00 PM and (2) Monday Dec 18th - 7:00 PM
+// Monday Dec 18th - 10:55 PM --> (1) Monday Dec 18th - 10:00 PM and (2) Monday Dec 18th - 11:00 PM
+func GetHourRange(dt time.Time) (time.Time, time.Time) {
+	// Discard the minutes and seconds to get the starting hour
+	startHour := time.Date(dt.Year(), dt.Month(), dt.Day(), dt.Hour(), 0, 0, 0, dt.Location())
+
+	// Add 1 hour to get the ending hour while discarding the minutes
+	endHour := startHour.Add(time.Hour)
+
+	return startHour, endHour
+}

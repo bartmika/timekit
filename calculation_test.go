@@ -717,5 +717,17 @@ func TestGetDatesForLastWeekDayByMonthlyBasedRecurringSchedule(t *testing.T) {
 	if timeEqual(expected, actual) == false {
 		t.Errorf("Incorrect date, got %s but was expecting %s", actual, expected)
 	}
-
+}
+func TestGetHourRange(t *testing.T) {
+	loc := time.UTC                                    // closure can be used if necessary
+	given := time.Date(2023, 12, 18, 9, 30, 0, 0, loc) // Monday Dec 18th - 9:30 AM
+	act1, act2 := GetHourRange(given)
+	exp1 := time.Date(2023, 12, 18, 9, 0, 0, 0, loc)  // Monday Dec 18th - 9 AM
+	exp2 := time.Date(2023, 12, 18, 10, 0, 0, 0, loc) // Monday Dec 18th - 10 AM
+	if exp1 != act1 {
+		t.Errorf("Incorrect date, got %s but was expecting %s", act1, exp1)
+	}
+	if exp2 != act2 {
+		t.Errorf("Incorrect date, got %s but was expecting %s", act2, exp2)
+	}
 }
