@@ -731,3 +731,22 @@ func TestGetHourRange(t *testing.T) {
 		t.Errorf("Incorrect date, got %s but was expecting %s", act2, exp2)
 	}
 }
+
+func TestHourRangeForNow(t *testing.T) {
+	// Stub out the `time.Now()` function with our custom value so we can
+	// simulate being in this current data.
+	loc := time.UTC // closure can be used if necessary
+	timeFn := func() time.Time {
+		return time.Date(2023, 12, 18, 9, 30, 0, 0, loc) // Monday Dec 18th - 9:30 AM
+	}
+
+	act1, act2 := HourRangeForNow(timeFn)
+	exp1 := time.Date(2023, 12, 18, 9, 0, 0, 0, loc)  // Monday Dec 18th - 9 AM
+	exp2 := time.Date(2023, 12, 18, 10, 0, 0, 0, loc) // Monday Dec 18th - 10 AM
+	if exp1 != act1 {
+		t.Errorf("Incorrect date, got %s but was expecting %s", act1, exp1)
+	}
+	if exp2 != act2 {
+		t.Errorf("Incorrect date, got %s but was expecting %s", act2, exp2)
+	}
+}

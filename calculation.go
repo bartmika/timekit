@@ -471,3 +471,10 @@ func GetHourRange(dt time.Time) (time.Time, time.Time) {
 
 	return startHour, endHour
 }
+
+// HourRangeForNow works just like the `GetHourRange` function however it works
+// for the current date/time.
+func HourRangeForNow(now func() time.Time) (time.Time, time.Time) {
+	dt := now()
+	return GetHourRange(dt)
+}
